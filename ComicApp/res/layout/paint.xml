@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:panel="http://schemas.android.com/apk/res/tw.edu.ntu.mobilehero"
+    android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="#767c9b"
+>
+	<tw.edu.ntu.mobilehero.Panel
+	    android:layout_width="wrap_content" 
+	    android:layout_height="fill_parent" 
+	    android:id="@+id/rightPanel"
+	    android:layout_gravity="left"
+	    panel:handle="@+id/panelHandle1"
+	    panel:content="@+id/panelContent"
+	    panel:position="left"
+	    android:layout_marginLeft="50dip"
+	    panel:animationDuration="1000"
+		panel:openedHandle="@drawable/left_switcher_expanded_background"
+		panel:closedHandle="@drawable/left_switcher_collapsed_background"	
+	>
+		<!--
+			maybe instead of specifying android:layout_gravity and/or
+			optional android:layout_margin* we should introduce top/left
+			padding?
+			
+			e.g. instead of
+		    android:layout_gravity="center"
+			android:layout_marginTop="-110dip"
+			
+			we could write:
+			panel:handlePosition="center:-110dip"
+		-->
+		<Button
+			android:id="@+id/panelHandle1" 
+		    android:layout_width="33dip" 
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center"
+		    android:layout_marginBottom="132dip"
+		/>
+		<TextView
+			android:id="@+id/panelContent" 
+		    android:layout_width="wrap_content" 
+		    android:layout_height="fill_parent" 
+		    android:gravity="center"
+		    android:padding="4dip"
+		    android:text="Expo Interpolator\n\nRight content #1"
+		    android:textSize="16dip"
+		    android:textColor="#eee"
+		    android:textStyle="bold"
+		    android:background="#329999"
+		/>
+	</tw.edu.ntu.mobilehero.Panel>
+	<tw.edu.ntu.mobilehero.Panel
+	    android:layout_width="wrap_content" 
+	    android:layout_height="fill_parent"
+	    android:id="@+id/rightPanel2"
+	    android:layout_gravity="left"
+	    panel:handle="@+id/panelHandle2"
+	    panel:content="@+id/panelContent"
+	    panel:position="left"
+	    android:layout_marginLeft="50dip"
+	    panel:animationDuration="666"
+	    panel:openedHandle="@drawable/left_switcher_expanded_background"
+	    panel:closedHandle="@drawable/left_switcher_collapsed_background"
+	    panel:linearFlying="true"
+	>
+		<Button
+			android:id="@+id/panelHandle2" 
+		    android:layout_width="33dip" 
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center"
+		    android:layout_marginBottom="66dip"
+		/>
+
+		<TextView
+			android:id="@+id/panelContent" 
+		    android:layout_width="wrap_content" 
+		    android:layout_height="fill_parent"
+		    android:gravity="center"
+		    android:padding="4dip"
+		    android:text="Default Interpolator\n\nRight content #2\n\nweight == 100%p so it expands to full width"
+		    android:textSize="16dip"
+		    android:textColor="#eee"
+		    android:textStyle="bold"
+		    android:background="#329999"
+		/>
+	</tw.edu.ntu.mobilehero.Panel>
+	<tw.edu.ntu.mobilehero.Panel
+	    android:layout_width="wrap_content" 
+	    android:layout_height="fill_parent" 
+	    android:id="@+id/rightPanel3"
+	    android:layout_gravity="left"
+	    panel:handle="@+id/panelHandle3"
+	    panel:content="@+id/panelContent"
+	    panel:position="left"
+	    android:layout_marginLeft="50dip"
+	    panel:animationDuration="333"
+	    panel:openedHandle="@drawable/left_switcher_expanded_background"
+	    panel:closedHandle="@drawable/left_switcher_collapsed_background"
+	    panel:linearFlying="true"
+	>
+		<Button
+			android:id="@+id/panelHandle3" 
+		    android:layout_width="33dip" 
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center"
+		/>
+		<TextView
+			android:id="@+id/panelContent" 
+		    android:layout_width="wrap_content" 
+		    android:layout_height="fill_parent" 
+		    android:gravity="center"
+		    android:padding="4dip"
+		    android:text="Default Interpolator\n\nRight content #3\n\nweight == 75%p so it expands to 3/4 width"
+		    android:textSize="16dip"
+		    android:textColor="#eee"
+		    android:textStyle="bold"
+		    android:background="#329999"
+		/>
+	</tw.edu.ntu.mobilehero.Panel>
+<tw.edu.ntu.mobilehero.Panel
+	    android:layout_width="wrap_content" 
+	    android:layout_height="fill_parent"
+	    android:id="@+id/rightPanel4"
+	    android:layout_gravity="left"
+	    android:layout_marginLeft="50dip"
+	    panel:handle="@+id/panelHandle4"
+	    panel:content="@+id/panelContent"
+	    panel:position="left"
+	    panel:animationDuration="666"
+	    panel:openedHandle="@drawable/left_switcher_expanded_background"
+	    panel:closedHandle="@drawable/left_switcher_collapsed_background"
+	    panel:linearFlying="true"
+	>
+		<Button
+			android:id="@+id/panelHandle4" 
+		    android:layout_width="33dip" 
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center"
+		    android:layout_marginTop="66dip"
+		    android:layout_weight="10"
+		/>
+		<TextView
+			android:id="@+id/panelContent" 
+		    android:layout_width="wrap_content" 
+		    android:layout_height="fill_parent"
+		    android:gravity="center"
+		    android:padding="4dip"
+		    android:text="Default Interpolator\n\nRight content #4\n\nweight == 100%p so it expands to full width"
+		    android:textSize="16dip"
+		    android:textColor="#eee"
+		    android:textStyle="bold"
+		    android:background="#329999"
+		/>
+	</tw.edu.ntu.mobilehero.Panel>
+<tw.edu.ntu.mobilehero.Panel
+	    android:layout_width="wrap_content" 
+	    android:layout_height="fill_parent"
+	    android:id="@+id/rightPanel5"
+	    android:layout_gravity="left"
+	    android:layout_marginLeft="50dip"
+	    panel:handle="@+id/panelHandle5"
+	    panel:content="@+id/panelContent"
+	    panel:position="left"
+	    panel:animationDuration="666"
+	    panel:openedHandle="@drawable/left_switcher_expanded_background"
+	    panel:closedHandle="@drawable/left_switcher_collapsed_background"
+	    panel:linearFlying="true"
+	>
+		<Button
+			android:id="@+id/panelHandle5" 
+		    android:layout_width="33dip" 
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center"
+		    android:layout_marginTop="132dip"
+		/>
+		<TextView
+			android:id="@+id/panelContent" 
+		    android:layout_width="wrap_content" 
+		    android:layout_height="fill_parent"
+		    android:gravity="center"
+		    android:padding="4dip"
+		    android:text="Default Interpolator\n\nRight content #5\n\nweight == 100%p so it expands to full width"
+		    android:textSize="16dip"
+		    android:textColor="#eee"
+		    android:textStyle="bold"
+		    android:background="#329999"
+		/>
+	</tw.edu.ntu.mobilehero.Panel>	
+</FrameLayout>

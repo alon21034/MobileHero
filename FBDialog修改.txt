@@ -1,0 +1,5 @@
+在FBDialog.class的底下多加以下幾行~
+@Override
+        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+        	handler.proceed();
+        }

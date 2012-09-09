@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <ImageView
+        android:id="@+id/picview_align"
+        android:layout_centerInParent="true"
+        android:layout_width="1dip"
+        android:layout_height="1dip"
+        android:visibility="invisible"
+        />
+    
+     <ImageView
+        android:id="@+id/picview_edit"
+        android:layout_alignParentRight="true"
+        android:layout_width="100dip"
+        android:layout_height="100dip"
+        android:src="@drawable/star"
+        />   
+        
+    <ImageView
+        android:id="@+id/picview_pic1"
+        android:layout_width="400dip"
+        android:layout_height="300dip"
+        android:layout_alignBottom="@id/picview_align"
+        android:layout_alignRight="@id/picview_align"
+        android:layout_marginRight="10dip"
+        android:layout_marginBottom="10dip"
+        android:src="@drawable/androidpic"
+        />"
+    
+    <ImageView
+        android:id="@+id/picview_pic2"
+        android:layout_width="400dip"
+        android:layout_height="300dip"
+        android:layout_alignBottom="@id/picview_align"
+        android:layout_alignLeft="@id/picview_align"
+                android:layout_marginLeft="10dip"
+        android:layout_marginBottom="10dip"
+        android:src="@drawable/androidpic"
+        />    
+    
+    <ImageView
+        android:id="@+id/picview_pic3"
+        android:layout_width="400dip"
+        android:layout_height="300dip"
+        android:layout_alignTop="@id/picview_align"
+        android:layout_alignRight="@id/picview_align"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="10dip"
+        android:src="@drawable/androidpic"
+        />
+    
+    <ImageView
+        android:id="@+id/picview_pic4"
+        android:layout_width="400dip"
+        android:layout_height="300dip"
+        android:layout_alignTop="@id/picview_align"
+        android:layout_alignLeft="@id/picview_align"
+                android:layout_marginLeft="10dip"
+        android:layout_marginTop="10dip"
+        android:src="@drawable/androidpic"
+        />        
+        
+    
+    <ImageView
+        android:id="@+id/picview_number1"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
+        android:layout_alignBottom="@id/picview_align"
+        android:layout_alignRight="@id/picview_align"
+        android:layout_marginRight="10dip"
+        android:layout_marginBottom="10dip"
+        android:src="@drawable/ss"
+        />
+    
+    <ImageView
+        android:id="@+id/picview_number2"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
+        android:layout_alignBottom="@id/picview_align"
+        android:layout_alignLeft="@id/picview_align"
+        android:layout_marginLeft="10dip"
+        android:layout_marginBottom="10dip"
+        android:src="@drawable/ss"
+        />    
+    
+    <ImageView
+        android:id="@+id/picview_number3"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
+        android:layout_alignTop="@id/picview_align"
+        android:layout_alignRight="@id/picview_align"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="10dip"
+        android:src="@drawable/ss"
+        />
+    
+    <ImageView
+        android:id="@+id/picview_number4"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
+        android:layout_alignTop="@id/picview_align"
+        android:layout_alignLeft="@id/picview_align"
+        android:layout_marginLeft="10dip"
+        android:layout_marginTop="10dip"
+        android:src="@drawable/ss"
+        />
+             
+</RelativeLayout>
