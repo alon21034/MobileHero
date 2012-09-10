@@ -24,14 +24,21 @@ import com.facebook.android.FacebookError;
 
 //(TODO) need change to Fragment for supporting ICS
 public class MainActivity extends ActivityGroup {
-/** Called when the activity is first created. */
 
+    public final static String[] TAB_TAG = {
+        "tab_1",
+        "tab_2",
+        "tab_3",
+        "tab_4",
+        "tab_5",
+        "tab_6"
+    };
+    
 	Drawable icon_tab_1, icon_tab_2, icon_tab_3, icon_tab_4, icon_tab_5, icon_tab_6, icon_tab_7;
-
 	Facebook facebook = new Facebook("311185528978877");
 	
 	private SharedPreferences mPrefs;
-	private AsyncFacebookRunner mAsyncRunner;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -93,37 +100,37 @@ public class MainActivity extends ActivityGroup {
 	private void createHorizontalTab(TabHost tabHost) {
 
 		tabHost.addTab(tabHost
-				.newTabSpec("tab1")
+				.newTabSpec(TAB_TAG[0])
 				.setIndicator(
 						createIndicatorView(this, tabHost, icon_tab_1, getString(R.string.menuitem_homepage)))
 						.setContent(new Intent(this, Main.class)));		
 		
 		tabHost.addTab(tabHost
-				.newTabSpec("tab2")
+				.newTabSpec(TAB_TAG[1])
 				.setIndicator(
 						createIndicatorView(this, tabHost, icon_tab_2, getString(R.string.menuitem_most_viewed)))
 						.setContent(new Intent(this, ActivityGroupPaint.class)));
 		
 		tabHost.addTab(tabHost
-				.newTabSpec("tab3")
+				.newTabSpec(TAB_TAG[2])
 				.setIndicator(
 						createIndicatorView(this, tabHost, icon_tab_3, getString(R.string.menuitem_private)))
 						.setContent(new Intent(this, ActivityGroupPaint.class)));
 		
 		tabHost.addTab(tabHost
-				.newTabSpec("tab4")
+				.newTabSpec(TAB_TAG[3])
 				.setIndicator(
 						createIndicatorView(this, tabHost, icon_tab_4, getString(R.string.menuitem_new_comic)))
 						.setContent(new Intent(this, ActivityGroupView.class)));
 		
 		tabHost.addTab(tabHost
-				.newTabSpec("tab5")
+				.newTabSpec(TAB_TAG[4])
 				.setIndicator(
 						createIndicatorView(this, tabHost, icon_tab_5, getString(R.string.menuitem_not_finished)))
 						.setContent(new Intent(this, ActivityGroupView.class)));
 		
 		tabHost.addTab(tabHost
-				.newTabSpec("tab6")
+				.newTabSpec(TAB_TAG[5])
 				.setIndicator(
 						createIndicatorView(this, tabHost, icon_tab_6, getString(R.string.menuitem_setting)))
 						.setContent(new Intent(this, ActivityGroupView.class)));
