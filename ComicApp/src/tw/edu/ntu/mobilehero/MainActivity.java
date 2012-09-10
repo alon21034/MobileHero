@@ -16,7 +16,6 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
-import com.facebook.android.AsyncFacebookRunner;
 import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
 import com.facebook.android.Facebook.DialogListener;
@@ -34,7 +33,7 @@ public class MainActivity extends ActivityGroup {
         "tab_6"
     };
     
-	Drawable icon_tab_1, icon_tab_2, icon_tab_3, icon_tab_4, icon_tab_5, icon_tab_6, icon_tab_7;
+	Drawable icon_tab_1, icon_tab_2, icon_tab_3, icon_tab_4, icon_tab_5, icon_tab_6;
 	Facebook facebook = new Facebook("311185528978877");
 	
 	private SharedPreferences mPrefs;
@@ -93,7 +92,6 @@ public class MainActivity extends ActivityGroup {
 		icon_tab_4 = this.getResources().getDrawable(R.drawable.icon_2_n);
 		icon_tab_5 = this.getResources().getDrawable(R.drawable.icon_2_d);
 		icon_tab_6 = this.getResources().getDrawable(R.drawable.icon_2_n);
-		icon_tab_7 = this.getResources().getDrawable(R.drawable.icon_2_n);
 		createHorizontalTab(tabHost);
 	}
 
