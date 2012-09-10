@@ -129,17 +129,17 @@ public class MainActivity extends ActivityGroup {
 		
 		TabWidget tw = tabHost.getTabWidget();
 		tw.setOrientation(LinearLayout.VERTICAL);
-}
+	}   
 
 
-private View createIndicatorView(Context context, TabHost tabHost, Drawable icon, String title) {
-	LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	View tabIndicator = inflater.inflate(R.layout.tab_indicator_horizontal, tabHost.getTabWidget(), false);
-	final ImageView iconView = (ImageView) tabIndicator.findViewById(R.id.icon);
-	final TextView titleView = (TextView) tabIndicator.findViewById(R.id.title);
-	titleView.setText(title);
-	iconView.setImageDrawable(icon);
-	return tabIndicator;
-}
+	private View createIndicatorView(Context context, TabHost tabHost, Drawable icon, String title) {
+	    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	    View tabIndicator = inflater.inflate(R.layout.tab_indicator_horizontal, tabHost.getTabWidget(), false);
+	    final ImageView iconView = (ImageView) tabIndicator.findViewById(R.id.icon);
+	    final TextView titleView = (TextView) tabIndicator.findViewById(R.id.title);
+	    titleView.setText(title);
+	    iconView.setImageDrawable(icon);
+	    return tabIndicator;
+	}
 
 }
