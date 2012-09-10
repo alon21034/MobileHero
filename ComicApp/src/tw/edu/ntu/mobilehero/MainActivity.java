@@ -1,11 +1,5 @@
 package tw.edu.ntu.mobilehero;
 
-import com.facebook.android.AsyncFacebookRunner;
-import com.facebook.android.DialogError;
-import com.facebook.android.Facebook;
-import com.facebook.android.FacebookError;
-import com.facebook.android.Facebook.DialogListener;
-
 import android.app.ActivityGroup;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +15,12 @@ import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
+
+import com.facebook.android.AsyncFacebookRunner;
+import com.facebook.android.DialogError;
+import com.facebook.android.Facebook;
+import com.facebook.android.Facebook.DialogListener;
+import com.facebook.android.FacebookError;
 
 public class MainActivity extends ActivityGroup {
 /** Called when the activity is first created. */
@@ -94,44 +94,38 @@ public class MainActivity extends ActivityGroup {
 		tabHost.addTab(tabHost
 				.newTabSpec("tab1")
 				.setIndicator(
-						createIndicatorView(this, tabHost, icon_tab_1, "首頁"))
+						createIndicatorView(this, tabHost, icon_tab_1, getString(R.string.menuitem_homepage)))
 						.setContent(new Intent(this, Main.class)));		
 		
 		tabHost.addTab(tabHost
 				.newTabSpec("tab2")
 				.setIndicator(
-						createIndicatorView(this, tabHost, icon_tab_2, "開新畫面"))
+						createIndicatorView(this, tabHost, icon_tab_2, getString(R.string.menuitem_most_viewed)))
 						.setContent(new Intent(this, ActivityGroupPaint.class)));
 		
 		tabHost.addTab(tabHost
 				.newTabSpec("tab3")
 				.setIndicator(
-						createIndicatorView(this, tabHost, icon_tab_3, "編輯未完成"))
+						createIndicatorView(this, tabHost, icon_tab_3, getString(R.string.menuitem_private)))
 						.setContent(new Intent(this, ActivityGroupPaint.class)));
 		
 		tabHost.addTab(tabHost
 				.newTabSpec("tab4")
 				.setIndicator(
-						createIndicatorView(this, tabHost, icon_tab_4, "最多人瀏覽"))
+						createIndicatorView(this, tabHost, icon_tab_4, getString(R.string.menuitem_new_comic)))
 						.setContent(new Intent(this, ActivityGroupView.class)));
 		
 		tabHost.addTab(tabHost
 				.newTabSpec("tab5")
 				.setIndicator(
-						createIndicatorView(this, tabHost, icon_tab_5, "我的作品"))
+						createIndicatorView(this, tabHost, icon_tab_5, getString(R.string.menuitem_not_finished)))
 						.setContent(new Intent(this, ActivityGroupView.class)));
 		
 		tabHost.addTab(tabHost
 				.newTabSpec("tab6")
 				.setIndicator(
-						createIndicatorView(this, tabHost, icon_tab_6, "被邀請"))
+						createIndicatorView(this, tabHost, icon_tab_6, getString(R.string.menuitem_setting)))
 						.setContent(new Intent(this, ActivityGroupView.class)));
-		
-		tabHost.addTab(tabHost
-				.newTabSpec("tab7")
-				.setIndicator(
-						createIndicatorView(this, tabHost, icon_tab_7, "設定"))
-						.setContent(new Intent(this, ActivityGroupSetting.class)));		
 		
 		TabWidget tw = tabHost.getTabWidget();
 		tw.setOrientation(LinearLayout.VERTICAL);

@@ -1,8 +1,12 @@
 <resources>
 
     <string name="app_name">MobileHero</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="menu_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="menuitem_homepage">Home</string>
+    <string name="menuitem_most_viewed">Hot</string>
+    <string name="menuitem_private">Private</string>
+    <string name="menuitem_new_comic">New</string>
+    <string name="menuitem_not_finished">Not finished</string>
+    <string name="menuitem_setting">Setting</string>
 
 </resources>

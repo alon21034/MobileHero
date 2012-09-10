@@ -15,12 +15,12 @@
  */
 package greendroid.widget;
 
-import tw.edu.ntu.mobilehero.R;
 import greendroid.image.ImageProcessor;
 import greendroid.image.ImageRequest;
 import greendroid.image.ImageRequest.ImageRequestCallback;
 import greendroid.util.Config;
 import greendroid.util.GDUtils;
+import tw.edu.ntu.mobilehero.R;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
