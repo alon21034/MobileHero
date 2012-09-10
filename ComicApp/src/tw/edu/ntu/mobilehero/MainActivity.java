@@ -22,6 +22,7 @@ import com.facebook.android.Facebook;
 import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
 
+//(TODO) need change to Fragment for supporting ICS
 public class MainActivity extends ActivityGroup {
 /** Called when the activity is first created. */
 
