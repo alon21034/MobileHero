@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back1"
     android:orientation="vertical" >
     
     <ImageView
@@ -73,7 +74,7 @@
         android:layout_alignRight="@id/picview_align"
         android:layout_marginRight="10dip"
         android:layout_marginBottom="10dip"
-        android:src="@drawable/ss"
+        android:src="@drawable/number1"
         />
     
     <ImageView
@@ -84,7 +85,7 @@
         android:layout_alignLeft="@id/picview_align"
         android:layout_marginLeft="10dip"
         android:layout_marginBottom="10dip"
-        android:src="@drawable/ss"
+        android:src="@drawable/number2"
         />    
     
     <ImageView
@@ -95,7 +96,7 @@
         android:layout_alignRight="@id/picview_align"
         android:layout_marginRight="10dip"
         android:layout_marginTop="10dip"
-        android:src="@drawable/ss"
+        android:src="@drawable/number3"
         />
     
     <ImageView
@@ -106,7 +107,15 @@
         android:layout_alignLeft="@id/picview_align"
         android:layout_marginLeft="10dip"
         android:layout_marginTop="10dip"
-        android:src="@drawable/ss"
+        android:src="@drawable/number4"
+        />
+
+    <ImageView
+        android:id="@+id/picview_preview"
+        android:layout_width="800dip"
+        android:layout_height="600dip"
+        android:layout_centerInParent="true"
+        android:src="@drawable/androidpic"
         />
              
 </RelativeLayout>

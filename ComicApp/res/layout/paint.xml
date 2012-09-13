@@ -4,8 +4,10 @@
 	xmlns:panel="http://schemas.android.com/apk/res/tw.edu.ntu.mobilehero"
     android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:background="#767c9b"
+	android:id="@+id/paint_frameLayout"
+	android:background="@drawable/back1"
 >
+
 	<tw.edu.ntu.mobilehero.Panel
 	    android:layout_width="wrap_content" 
 	    android:layout_height="fill_parent" 
@@ -14,7 +16,7 @@
 	    panel:handle="@+id/panelHandle1"
 	    panel:content="@+id/panelContent"
 	    panel:position="left"
-	    android:layout_marginLeft="50dip"
+	    android:layout_marginLeft="100dip"
 	    panel:animationDuration="1000"
 		panel:openedHandle="@drawable/left_switcher_expanded_background"
 		panel:closedHandle="@drawable/left_switcher_collapsed_background"	
@@ -49,6 +51,8 @@
 		    android:textColor="#eee"
 		    android:textStyle="bold"
 		    android:background="#329999"
+		    		    android:layout_marginTop="100dip"
+		    android:layout_marginBottom="100dip"
 		/>
 	</tw.edu.ntu.mobilehero.Panel>
 	<tw.edu.ntu.mobilehero.Panel
@@ -59,7 +63,7 @@
 	    panel:handle="@+id/panelHandle2"
 	    panel:content="@+id/panelContent"
 	    panel:position="left"
-	    android:layout_marginLeft="50dip"
+	    android:layout_marginLeft="100dip"
 	    panel:animationDuration="666"
 	    panel:openedHandle="@drawable/left_switcher_expanded_background"
 	    panel:closedHandle="@drawable/left_switcher_collapsed_background"
@@ -84,6 +88,8 @@
 		    android:textColor="#eee"
 		    android:textStyle="bold"
 		    android:background="#329999"
+		    		    android:layout_marginTop="100dip"
+		    android:layout_marginBottom="100dip"
 		/>
 	</tw.edu.ntu.mobilehero.Panel>
 	<tw.edu.ntu.mobilehero.Panel
@@ -94,7 +100,7 @@
 	    panel:handle="@+id/panelHandle3"
 	    panel:content="@+id/panelContent"
 	    panel:position="left"
-	    android:layout_marginLeft="50dip"
+	    android:layout_marginLeft="100dip"
 	    panel:animationDuration="333"
 	    panel:openedHandle="@drawable/left_switcher_expanded_background"
 	    panel:closedHandle="@drawable/left_switcher_collapsed_background"
@@ -117,6 +123,8 @@
 		    android:textColor="#eee"
 		    android:textStyle="bold"
 		    android:background="#329999"
+		    		    android:layout_marginTop="100dip"
+		    android:layout_marginBottom="100dip"
 		/>
 	</tw.edu.ntu.mobilehero.Panel>
 <tw.edu.ntu.mobilehero.Panel
@@ -124,7 +132,7 @@
 	    android:layout_height="fill_parent"
 	    android:id="@+id/rightPanel4"
 	    android:layout_gravity="left"
-	    android:layout_marginLeft="50dip"
+	    android:layout_marginLeft="100dip"
 	    panel:handle="@+id/panelHandle4"
 	    panel:content="@+id/panelContent"
 	    panel:position="left"
@@ -152,6 +160,8 @@
 		    android:textColor="#eee"
 		    android:textStyle="bold"
 		    android:background="#329999"
+		    		    android:layout_marginTop="100dip"
+		    android:layout_marginBottom="100dip"
 		/>
 	</tw.edu.ntu.mobilehero.Panel>
 <tw.edu.ntu.mobilehero.Panel
@@ -159,7 +169,7 @@
 	    android:layout_height="fill_parent"
 	    android:id="@+id/rightPanel5"
 	    android:layout_gravity="left"
-	    android:layout_marginLeft="50dip"
+	    android:layout_marginLeft="180dip"
 	    panel:handle="@+id/panelHandle5"
 	    panel:content="@+id/panelContent"
 	    panel:position="left"
@@ -186,6 +196,23 @@
 		    android:textColor="#eee"
 		    android:textStyle="bold"
 		    android:background="#329999"
+		    android:layout_marginTop="100dip"
+		    android:layout_marginBottom="100dip"
 		/>
 	</tw.edu.ntu.mobilehero.Panel>	
+	<RelativeLayout
+	    android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:paddingLeft="37dip"
+		android:paddingRight="37dip"
+	>
+        <ImageView
+            android:id="@+id/paint_toolbar"
+            android:layout_width="135dip"
+            android:layout_height="630dip" 
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="80dip"
+            android:src="@drawable/toolbar" />
+	</RelativeLayout>
 </FrameLayout>
