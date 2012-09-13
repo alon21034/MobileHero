@@ -8,5 +8,6 @@
     <string name="menuitem_new_comic">New</string>
     <string name="menuitem_not_finished">Not finished</string>
     <string name="menuitem_setting">Setting</string>
+    <string name="no_internet_connection">No Internet Connection</string>
 
 </resources>
