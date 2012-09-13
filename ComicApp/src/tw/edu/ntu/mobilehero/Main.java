@@ -1,10 +1,7 @@
 package tw.edu.ntu.mobilehero;
 
-import greendroid.widget.AsyncImageView;
-
 import java.util.ArrayList;
 import java.util.List;
-
 
 import tw.edu.ntu.mobilehero.asynctask.DownloadComicAsyncTask;
 import tw.edu.ntu.mobilehero.view.ComicView;
@@ -76,18 +73,6 @@ public class Main extends Activity{
                 }
             }
             return image;
-//            AsyncImageView image = new AsyncImageView(context);
-//            image.setLayoutParams(new GridView.LayoutParams(100,100));
-//            
-//            String url = getItem(position).getUrl(0);
-//            if(!url.equals("null")) {
-//                Log.d("","url = " + url);
-//                image.setUrl(url);
-//            } else {
-//                image.setImageResource(R.drawable.ic_launcher);
-//            }
-//            
-//            return image;
         }
     }
 }

@@ -140,7 +140,7 @@ public class DrawActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.draw);
+		setContentView(R.layout.activity_draw);
 		RelativeLayout drawLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
 		mCanvasView = new CanvasView(DrawActivity.this);
 		drawLayout.addView(mCanvasView);
