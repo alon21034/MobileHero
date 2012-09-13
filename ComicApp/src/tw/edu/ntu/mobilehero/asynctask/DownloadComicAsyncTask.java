@@ -1,6 +1,8 @@
 package tw.edu.ntu.mobilehero.asynctask;
 
-import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,15 +15,11 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import tw.edu.ntu.mobilehero.Comic;
 import tw.edu.ntu.mobilehero.Utils;
-import tw.edu.ntu.mobilehero.view.PublicImage;
-
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -36,10 +34,11 @@ public class DownloadComicAsyncTask extends AsyncTask<Integer, Throwable, ArrayL
         ArrayList<Comic> results =  new ArrayList<Comic>();
         try {
             HttpClient client = new DefaultHttpClient();            
-            HttpPost post = new HttpPost(SERVER_URL + "/sort");  
+            HttpPost post = new HttpPost(SERVER_URL + "/query");  
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("attribute", String.valueOf(attribute)));
             params.add(new BasicNameValuePair("user", Utils.user));
+            params.add(new BasicNameValuePair("offset", String.valueOf(0)));
             UrlEncodedFormEntity reqEntity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(reqEntity);
             
@@ -47,8 +46,11 @@ public class DownloadComicAsyncTask extends AsyncTask<Integer, Throwable, ArrayL
             Log.d("Status Code of Sorting Comics(" + attribute + ")", String.valueOf(response.getStatusLine().getStatusCode()));
             if (response.getStatusLine().getStatusCode() == 200) {  
                 HttpEntity resEntity = response.getEntity();  
-                try {
-                    JSONArray jsonArray = new JSONArray(EntityUtils.toString(resEntity));
+                if (resEntity != null) {
+                    final InputStream stream = resEntity.getContent();
+                    final String json = convertStreamToString(stream);
+                    Log.d("!!!", json);
+                    JSONArray jsonArray = new JSONArray(json);
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         
@@ -69,14 +71,25 @@ public class DownloadComicAsyncTask extends AsyncTask<Integer, Throwable, ArrayL
                         
                         results.add(comic);
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
             }
-        } catch (IOException e) {
+        } catch (Throwable e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
         return results;
+    }
+    
+    private String convertStreamToString(InputStream stream) throws Throwable {
+        final InputStreamReader isr = new InputStreamReader(stream);
+        final BufferedReader reader = new BufferedReader(isr);
+        final StringBuilder builder = new StringBuilder();
+        String line = null;
+        while ((line = reader.readLine()) != null) {
+            builder.append(line + "\n");
+        }
+
+        return builder.toString();
     }
 }
