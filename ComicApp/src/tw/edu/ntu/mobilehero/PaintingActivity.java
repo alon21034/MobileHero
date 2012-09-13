@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-public class Painting extends Activity  implements OnPanelListener , OnTouchListener{
+public class PaintingActivity extends Activity  implements OnPanelListener , OnTouchListener{
 
 	private Panel panel1;
 	private Panel panel2;

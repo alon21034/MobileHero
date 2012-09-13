@@ -20,7 +20,9 @@ public class ActivityGroupPaint extends ActivityGroup{
         this.history = new ArrayList<View>();
         groupPaint = this;
         
-        View view = getLocalActivityManager().startActivity("Activity1", new Intent(ActivityGroupPaint.this, Painting.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)).getDecorView();
+        View view = getLocalActivityManager().startActivity("Activity1", 
+                new Intent(ActivityGroupPaint.this, 
+                           PaintingActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)).getDecorView();
         replaceView(view);
     }
     

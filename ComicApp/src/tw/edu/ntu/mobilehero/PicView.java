@@ -262,7 +262,7 @@ public class PicView extends Activity implements OnClickListener, OnTouchListene
 				setAnimation(number3);
 				setAnimation(number4);
 				if(v == comic3 || v == comic1 || v == comic2 || v == comic4){
-					View view = ActivityGroupView.groupView.getLocalActivityManager().startActivity("Activity2", new Intent(PicView.this, Painting.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)).getDecorView();
+					View view = ActivityGroupView.groupView.getLocalActivityManager().startActivity("Activity2", new Intent(PicView.this, PaintingActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)).getDecorView();
                 	ActivityGroupView.groupView.replaceView(view);
 				}else if (v == edit){
 					

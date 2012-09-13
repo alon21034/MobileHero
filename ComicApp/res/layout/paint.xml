@@ -18,8 +18,8 @@
 	    panel:position="left"
 	    android:layout_marginLeft="100dip"
 	    panel:animationDuration="1000"
-		panel:openedHandle="@drawable/left_switcher_expanded_background"
-		panel:closedHandle="@drawable/left_switcher_collapsed_background"	
+		panel:openedHandle="@layout/left_switcher_expanded_background"
+		panel:closedHandle="@layout/left_switcher_collapsed_background"	
 	>
 		<!--
 			maybe instead of specifying android:layout_gravity and/or
@@ -65,8 +65,8 @@
 	    panel:position="left"
 	    android:layout_marginLeft="100dip"
 	    panel:animationDuration="666"
-	    panel:openedHandle="@drawable/left_switcher_expanded_background"
-	    panel:closedHandle="@drawable/left_switcher_collapsed_background"
+	    panel:openedHandle="@layout/left_switcher_expanded_background"
+	    panel:closedHandle="@layout/left_switcher_collapsed_background"
 	    panel:linearFlying="true"
 	>
 		<Button
@@ -102,8 +102,8 @@
 	    panel:position="left"
 	    android:layout_marginLeft="100dip"
 	    panel:animationDuration="333"
-	    panel:openedHandle="@drawable/left_switcher_expanded_background"
-	    panel:closedHandle="@drawable/left_switcher_collapsed_background"
+	    panel:openedHandle="@layout/left_switcher_expanded_background"
+	    panel:closedHandle="@layout/left_switcher_collapsed_background"
 	    panel:linearFlying="true"
 	>
 		<Button
@@ -137,8 +137,8 @@
 	    panel:content="@+id/panelContent"
 	    panel:position="left"
 	    panel:animationDuration="666"
-	    panel:openedHandle="@drawable/left_switcher_expanded_background"
-	    panel:closedHandle="@drawable/left_switcher_collapsed_background"
+	    panel:openedHandle="@layout/left_switcher_expanded_background"
+	    panel:closedHandle="@layout/left_switcher_collapsed_background"
 	    panel:linearFlying="true"
 	>
 		<Button
@@ -174,8 +174,8 @@
 	    panel:content="@+id/panelContent"
 	    panel:position="left"
 	    panel:animationDuration="666"
-	    panel:openedHandle="@drawable/left_switcher_expanded_background"
-	    panel:closedHandle="@drawable/left_switcher_collapsed_background"
+	    panel:openedHandle="@layout/left_switcher_expanded_background"
+	    panel:closedHandle="@layout/left_switcher_collapsed_background"
 	    panel:linearFlying="true"
 	>
 		<Button

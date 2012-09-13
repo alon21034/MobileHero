@@ -1,12 +1,12 @@
 package tw.edu.ntu.mobilehero.view;
 
+import greendroid.widget.AsyncImageView;
+
 import java.util.ArrayList;
 
-import greendroid.widget.AsyncImageView;
 import tw.edu.ntu.mobilehero.R;
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
