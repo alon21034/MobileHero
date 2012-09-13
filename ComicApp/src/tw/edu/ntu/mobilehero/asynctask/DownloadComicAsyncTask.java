@@ -49,27 +49,20 @@ public class DownloadComicAsyncTask extends AsyncTask<Integer, Throwable, ArrayL
                 if (resEntity != null) {
                     final InputStream stream = resEntity.getContent();
                     final String json = convertStreamToString(stream);
-                    Log.d("!!!", json);
                     JSONArray jsonArray = new JSONArray(json);
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        
-                        Comic comic = new Comic(jsonObject.getString("identifier"),
-                                jsonObject.getString("blobkey1"), 
-                                jsonObject.getString("blobkey2"), 
-                                jsonObject.getString("blobkey3"), 
-                                jsonObject.getString("blobkey4"), 
-                                jsonObject.getString("creator1"), 
-                                jsonObject.getString("creator2"),
-                                jsonObject.getString("creator3"),
-                                jsonObject.getString("creator4"),
-                                Integer.parseInt(jsonObject.getString("views")));
-                        if (attribute == Utils.INVITATIONS) {
-                            comic.setInviter(jsonObject.getString("inviter"));
-                            Log.d("inviter", jsonObject.getString("inviter"));
-                        }
-                        
-                        results.add(comic);
+                        JSONObject rootObject = jsonArray.getJSONObject(i);
+                        Comic c = new Comic();
+                        c.setUrl(0, rootObject.optString("url1"));
+                        c.setUrl(1, rootObject.optString("url2"));
+                        c.setUrl(2, rootObject.optString("url3"));
+                        c.setUrl(3, rootObject.optString("url4"));
+                        c.setCreator(0, rootObject.optString("creator1"));
+                        c.setCreator(1, rootObject.optString("creator2"));
+                        c.setCreator(2, rootObject.optString("creator3"));
+                        c.setCreator(3, rootObject.optString("creator4"));
+                        c.setId(rootObject.optString("identifier"));
+                        results.add(c);
                     }
                 }
             }
