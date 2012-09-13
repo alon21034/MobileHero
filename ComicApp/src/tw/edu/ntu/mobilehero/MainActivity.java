@@ -22,6 +22,7 @@ import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
 
 //(TODO) need change to Fragment for supporting ICS
+@SuppressWarnings("deprecation")
 public class MainActivity extends ActivityGroup {
 
     public final static String[] TAB_TAG = {
