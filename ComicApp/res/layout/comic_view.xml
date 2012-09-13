@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <greendroid.widget.AsyncImageView
+        android:id="@+id/comic_1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+    <greendroid.widget.AsyncImageView
+        android:id="@+id/comic_2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+    <greendroid.widget.AsyncImageView
+        android:id="@+id/comic_3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+    <greendroid.widget.AsyncImageView
+        android:id="@+id/comic_4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+</LinearLayout>

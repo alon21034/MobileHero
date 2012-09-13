@@ -1,11 +1,5 @@
 package tw.edu.ntu.mobilehero;
 
-import com.facebook.android.AsyncFacebookRunner;
-import com.facebook.android.DialogError;
-import com.facebook.android.Facebook;
-import com.facebook.android.FacebookError;
-import com.facebook.android.Facebook.DialogListener;
-
 import android.app.ActivityGroup;
 import android.content.Context;
 import android.content.Intent;
@@ -22,15 +16,29 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
+import com.facebook.android.DialogError;
+import com.facebook.android.Facebook;
+import com.facebook.android.Facebook.DialogListener;
+import com.facebook.android.FacebookError;
+
+//(TODO) need change to Fragment for supporting ICS
+@SuppressWarnings("deprecation")
 public class MainActivity extends ActivityGroup {
-/** Called when the activity is first created. */
 
+    public final static String[] TAB_TAG = {
+        "tab_1",
+        "tab_2",
+        "tab_3",
+        "tab_4",
+        "tab_5",
+        "tab_6"
+    };
+    
 	Drawable icon_tab_1, icon_tab_2, icon_tab_3, icon_tab_4, icon_tab_5, icon_tab_6;
-
 	Facebook facebook = new Facebook("311185528978877");
 	
 	private SharedPreferences mPrefs;
-	private AsyncFacebookRunner mAsyncRunner;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -79,66 +87,66 @@ public class MainActivity extends ActivityGroup {
 
 		final TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
 		tabHost.setup(getLocalActivityManager());
-		icon_tab_1 = this.getResources().getDrawable(R.drawable.home4);
-		icon_tab_2 = this.getResources().getDrawable(R.drawable.plus4);
-		icon_tab_3 = this.getResources().getDrawable(R.drawable.paint4);
-		icon_tab_4 = this.getResources().getDrawable(R.drawable.hot4);
-		icon_tab_5 = this.getResources().getDrawable(R.drawable.personal4);
-		icon_tab_6 = this.getResources().getDrawable(R.drawable.setting4);
+		icon_tab_1 = this.getResources().getDrawable(R.drawable.icon_1_d);
+		icon_tab_2 = this.getResources().getDrawable(R.drawable.icon_1_n);
+		icon_tab_3 = this.getResources().getDrawable(R.drawable.icon_2_d);
+		icon_tab_4 = this.getResources().getDrawable(R.drawable.icon_2_n);
+		icon_tab_5 = this.getResources().getDrawable(R.drawable.icon_2_d);
+		icon_tab_6 = this.getResources().getDrawable(R.drawable.icon_2_n);
 		createHorizontalTab(tabHost);
 	}
 
 	private void createHorizontalTab(TabHost tabHost) {
 
 		tabHost.addTab(tabHost
-				.newTabSpec("tab1")
+				.newTabSpec(TAB_TAG[0])
 				.setIndicator(
-						createIndicatorView(this, tabHost, icon_tab_1, ""))
+						createIndicatorView(this, tabHost, icon_tab_1, getString(R.string.menuitem_homepage)))
 						.setContent(new Intent(this, Main.class)));		
 		
 		tabHost.addTab(tabHost
-				.newTabSpec("tab2")
+				.newTabSpec(TAB_TAG[1])
 				.setIndicator(
-						createIndicatorView(this, tabHost, icon_tab_2, ""))
+						createIndicatorView(this, tabHost, icon_tab_2, getString(R.string.menuitem_most_viewed)))
 						.setContent(new Intent(this, ActivityGroupPaint.class)));
 		
 		tabHost.addTab(tabHost
-				.newTabSpec("tab3")
+				.newTabSpec(TAB_TAG[2])
 				.setIndicator(
-						createIndicatorView(this, tabHost, icon_tab_3, ""))
+						createIndicatorView(this, tabHost, icon_tab_3, getString(R.string.menuitem_private)))
 						.setContent(new Intent(this, ActivityGroupPaint.class)));
 		
 		tabHost.addTab(tabHost
-				.newTabSpec("tab4")
+				.newTabSpec(TAB_TAG[3])
 				.setIndicator(
-						createIndicatorView(this, tabHost, icon_tab_4, ""))
+						createIndicatorView(this, tabHost, icon_tab_4, getString(R.string.menuitem_new_comic)))
+						.setContent(new Intent(this, DrawActivity.class)));
+		
+		tabHost.addTab(tabHost
+				.newTabSpec(TAB_TAG[4])
+				.setIndicator(
+						createIndicatorView(this, tabHost, icon_tab_5, getString(R.string.menuitem_not_finished)))
 						.setContent(new Intent(this, ActivityGroupView.class)));
 		
 		tabHost.addTab(tabHost
-				.newTabSpec("tab5")
+				.newTabSpec(TAB_TAG[5])
 				.setIndicator(
-						createIndicatorView(this, tabHost, icon_tab_5, ""))
+						createIndicatorView(this, tabHost, icon_tab_6, getString(R.string.menuitem_setting)))
 						.setContent(new Intent(this, ActivityGroupView.class)));
 		
-		tabHost.addTab(tabHost
-				.newTabSpec("tab6")
-				.setIndicator(
-						createIndicatorView(this, tabHost, icon_tab_6, ""))
-						.setContent(new Intent(this, ActivityGroupSetting.class)));
-
 		TabWidget tw = tabHost.getTabWidget();
 		tw.setOrientation(LinearLayout.VERTICAL);
-}
+	}   
 
 
-private View createIndicatorView(Context context, TabHost tabHost, Drawable icon, String title) {
-	LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	View tabIndicator = inflater.inflate(R.layout.tab_indicator_horizontal, tabHost.getTabWidget(), false);
-	final ImageView iconView = (ImageView) tabIndicator.findViewById(R.id.icon);
-	final TextView titleView = (TextView) tabIndicator.findViewById(R.id.title);
-	titleView.setText(title);
-	iconView.setImageDrawable(icon);
-	return tabIndicator;
-}
+	private View createIndicatorView(Context context, TabHost tabHost, Drawable icon, String title) {
+	    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	    View tabIndicator = inflater.inflate(R.layout.tab_indicator_horizontal, tabHost.getTabWidget(), false);
+	    final ImageView iconView = (ImageView) tabIndicator.findViewById(R.id.icon);
+	    final TextView titleView = (TextView) tabIndicator.findViewById(R.id.title);
+	    titleView.setText(title);
+	    iconView.setImageDrawable(icon);
+	    return tabIndicator;
+	}
 
 }

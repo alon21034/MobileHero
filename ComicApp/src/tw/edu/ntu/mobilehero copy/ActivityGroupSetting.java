@@ -8,9 +8,9 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 
-public class ActivityGroupView extends ActivityGroup{
+public class ActivityGroupSetting extends ActivityGroup{
 	
-    public static ActivityGroupView groupView;
+    public static ActivityGroupSetting groupSetting;
     /** Back Stack */
     private ArrayList<View> history;
     
@@ -18,9 +18,9 @@ public class ActivityGroupView extends ActivityGroup{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.history = new ArrayList<View>();
-        groupView = this;
+        groupSetting = this;
         
-        View view = getLocalActivityManager().startActivity("Activity1", new Intent(ActivityGroupView.this, ComicViewActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)).getDecorView();
+        View view = getLocalActivityManager().startActivity("Activity1", new Intent(ActivityGroupSetting.this, Setting.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)).getDecorView();
         replaceView(view);
     }
     

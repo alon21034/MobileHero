@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Button
+        android:id="@+id/redButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="紅" />
+
+    <Button
+        android:id="@+id/yellowButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/redButton"
+        android:text="黃" />
+
+    <Button
+        android:id="@+id/blueButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/yellowButton"
+        android:text="藍" />
+
+    <Button
+        android:id="@+id/bigButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/redButton"
+        android:layout_toRightOf="@+id/redButton"
+        android:text="粗" />
+
+    <Button
+        android:id="@+id/smallButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/yellowButton"
+        android:layout_toLeftOf="@+id/yellowButton"
+        android:text="細" />
+
+    <Button
+        android:id="@+id/penButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/bigButton"
+        android:text="畫筆" />
+
+    <Button
+        android:id="@+id/eraserButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/penButton"
+        android:layout_alignBottom="@+id/penButton"
+        android:layout_toRightOf="@+id/penButton"
+        android:text="橡皮擦" />
+
+    <Button
+        android:id="@+id/openButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/penButton"
+        android:layout_toLeftOf="@+id/eraserButton"
+        android:text="開啟" />
+
+    <Button
+        android:id="@+id/saveButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/openButton"
+        android:layout_alignBottom="@+id/openButton"
+        android:layout_alignLeft="@+id/eraserButton"
+        android:text="儲存" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/blueButton"
+        android:layout_below="@+id/openButton"
+        android:ems="10" />
+
+    <Button
+        android:id="@+id/enterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/editText"
+        android:text="輸入" />
+
+</RelativeLayout>
