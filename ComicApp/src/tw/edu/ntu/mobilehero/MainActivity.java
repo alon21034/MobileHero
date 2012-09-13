@@ -1,11 +1,5 @@
 package tw.edu.ntu.mobilehero;
 
-import com.facebook.android.AsyncFacebookRunner;
-import com.facebook.android.DialogError;
-import com.facebook.android.Facebook;
-import com.facebook.android.FacebookError;
-import com.facebook.android.Facebook.DialogListener;
-
 import android.app.ActivityGroup;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +16,12 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
+import com.facebook.android.DialogError;
+import com.facebook.android.Facebook;
+import com.facebook.android.Facebook.DialogListener;
+import com.facebook.android.FacebookError;
+
+@SuppressWarnings("deprecation")
 public class MainActivity extends ActivityGroup {
 /** Called when the activity is first created. */
 
@@ -30,13 +30,13 @@ public class MainActivity extends ActivityGroup {
 	Facebook facebook = new Facebook("311185528978877");
 	
 	private SharedPreferences mPrefs;
-	private AsyncFacebookRunner mAsyncRunner;
-	@Override
+	@SuppressWarnings("deprecation")
+    @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		//getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
  
  
 		setContentView(R.layout.main_tab_horizontal);
@@ -75,7 +75,8 @@ public class MainActivity extends ActivityGroup {
 	}
 
 
-	private void parseHorizontalTab() {
+	@SuppressWarnings("deprecation")
+    private void parseHorizontalTab() {
 
 		final TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
 		tabHost.setup(getLocalActivityManager());
