@@ -20,7 +20,7 @@ public class ActivityGroupView extends ActivityGroup{
         this.history = new ArrayList<View>();
         groupView = this;
         
-        View view = getLocalActivityManager().startActivity("Activity1", new Intent(ActivityGroupView.this, ComicViewActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)).getDecorView();
+        View view = getLocalActivityManager().startActivity("Activity1", new Intent(ActivityGroupView.this, ComicView.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)).getDecorView();
         replaceView(view);
     }
     
