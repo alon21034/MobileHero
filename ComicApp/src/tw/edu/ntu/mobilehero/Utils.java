@@ -34,13 +34,13 @@ import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
 
 public class Utils {
-	final static int MOST_VIEWS = 0;
-	final static int MY_WORKS = 1;
-	final static int INVITATIONS = 2;
+	public final static int MOST_VIEWS = 0;
+	public final static int MY_WORKS = 1;
+	public final static int INVITATIONS = 2;
 	
 	final static String SERVER_URL = "http://comicrelay.appspot.com";
 	
-	static String user;
+	public static String user;
 	static SharedPreferences mPrefs;
 	
 	final static Facebook facebook = new Facebook("311185528978877");
