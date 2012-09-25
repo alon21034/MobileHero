@@ -259,12 +259,12 @@ public class PicView extends Fragment implements OnClickListener, OnTouchListene
 				    }
 
                     if(!comic.getUrl(1).equals("null")){
-                        comic1.buildDrawingCache();
+                        comic2.buildDrawingCache();
                         bundle.putByteArray("image2", getByteArray(comic2.getDrawingCache()));
                     }
                     
                     if(!comic.getUrl(2).equals("null")){
-                        comic1.buildDrawingCache();
+                        comic3.buildDrawingCache();
                         bundle.putByteArray("image3", getByteArray(comic3.getDrawingCache()));
                     }
                     
