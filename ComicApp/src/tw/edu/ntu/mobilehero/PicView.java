@@ -250,7 +250,7 @@ public class PicView extends Fragment implements OnClickListener, OnTouchListene
 				setAnimation3(number3,0,0);
 				black.setVisibility(0);
 
-				if(getActivity() instanceof ActivityGroupView){
+				if(getActivity() instanceof ActivityGroupView || getActivity() instanceof ActivityGroupView1){
 				    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
 				    Bundle bundle = new Bundle();
 				    if(!comic.getUrl(0).equals("null")){

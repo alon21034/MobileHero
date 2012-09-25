@@ -235,6 +235,7 @@ public class DrawView extends View implements MultiTouchObjectCanvas<Scrap>{
         return null;
     }
 
+    
     public void getPositionAndScale(Scrap scrap, PositionAndScale objPosAndScaleOut) {
         float sc = scrap.getScale();
         objPosAndScaleOut.set(scrap.getCenterX(), scrap.getCenterY(), true, sc,
