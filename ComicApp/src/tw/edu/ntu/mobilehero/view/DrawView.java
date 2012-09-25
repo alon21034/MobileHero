@@ -16,9 +16,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.Paint.Style;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -94,6 +94,20 @@ public class DrawView extends View implements MultiTouchObjectCanvas<Scrap>{
         BitmapFile bmpFile;
         try {
             bmpFile = PictureFiles.loadResourcePicture(mContext, R.drawable.ic_launcher);
+            ImageScrap imageScrap = new ImageScrap(bmpFile.bmp, bmpFile.file);
+            mScraps.add(imageScrap);
+            
+            Log.d("!!","add scrap");
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    
+    public void addScrap(int id) {
+        BitmapFile bmpFile;
+        try {
+            bmpFile = PictureFiles.loadResourcePicture(mContext, id);
             ImageScrap imageScrap = new ImageScrap(bmpFile.bmp, bmpFile.file);
             mScraps.add(imageScrap);
             

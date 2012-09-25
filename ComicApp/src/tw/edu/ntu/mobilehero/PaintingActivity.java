@@ -1,6 +1,7 @@
 package tw.edu.ntu.mobilehero;
 
 import greendroid.sql.FileManager;
+import greendroid.widget.AsyncImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -16,6 +17,7 @@ import tw.edu.ntu.mobilehero.EasingType.Type;
 import tw.edu.ntu.mobilehero.MultiTouchController.OnFlickListener;
 import tw.edu.ntu.mobilehero.Panel.OnPanelListener;
 import tw.edu.ntu.mobilehero.asynctask.UploadComicAsyncTask;
+import tw.edu.ntu.mobilehero.view.Comic;
 import tw.edu.ntu.mobilehero.view.DrawView;
 import tw.edu.ntu.mobilehero.view.DrawView.State;
 import tw.edu.ntu.mobilehero.view.Scrap;
@@ -56,11 +58,12 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
 	private Panel panel2;
 	private Panel panel3;
 	private Panel panel4;
+	private Panel panel5;
 	private ImageView tool;
 	private ImageView pic1;
 	private ImageView pic2;
 	private ImageView pic3;
-	private ImageView preview;
+	private AsyncImageView preview;
 	private ImageView imageView;
 	private ImageView upload;
 	private ImageView save;
@@ -76,9 +79,9 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
     private String fileName = null;
     private String identifier;
     private int order;
+    private Comic comic;
     
     private DrawView canvasView;
-    private RelativeLayout canvasLayout;
     // references to our images
     private Integer[] mThumbIds = {
             R.drawable.dialog1,R.drawable.dialog2,
@@ -119,6 +122,7 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
 	        bm3 = BitmapFactory.decodeByteArray(b3, 0, b3.length);
 	    
 	}
+	
     PaintingActivity(Bundle bundle) {
     	super();
         filePath = bundle.getString("filePath", null);
@@ -214,8 +218,6 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
 				isSaved = true;
 			}
 		});
-        
-        canvasLayout = (RelativeLayout) v.findViewById(R.id.canvasLayout);
         
         gridview = (GridView) v.findViewById(R.id.gridview);
         gridview.setAdapter(new ImageAdapter(getActivity()));
@@ -379,7 +381,7 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
 	public boolean onTouch(View v, MotionEvent event) {
 		// TODO Auto-generated method stub
 		Log.i("touch","touch");
-		if( event.getAction() == MotionEvent.ACTION_DOWN ){
+		if( event.getAction() == MotionEvent.ACTION_DOWN && comic != null){
 			preview.setVisibility(0);
 			preview.setAlpha(200);
 			switch (v.getId()) {
@@ -395,7 +397,7 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
             default:
                 break;
             }
-		}else if( event.getAction() == MotionEvent.ACTION_UP ){
+		}else if( event.getAction() == MotionEvent.ACTION_UP && comic != null){
 			preview.setVisibility(4);
 		}
 		

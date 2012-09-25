@@ -6,7 +6,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.Random;
 
 import tw.edu.ntu.mobilehero.view.Comic;
-
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -42,6 +41,10 @@ public class PicView extends Fragment implements OnClickListener, OnTouchListene
 	private boolean isEditable;
 	
 	Comic comic;
+	
+	public PicView() {
+	    
+	}
 	
 	public PicView(Comic v) {
 	    Log.d("!!","pic view constructor");
