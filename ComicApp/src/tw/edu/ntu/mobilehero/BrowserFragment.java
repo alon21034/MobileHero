@@ -3,6 +3,7 @@ package tw.edu.ntu.mobilehero;
 import java.util.ArrayList;
 
 import tw.edu.ntu.mobilehero.asynctask.DownloadComicAsyncTask;
+import tw.edu.ntu.mobilehero.view.Comic;
 import tw.edu.ntu.mobilehero.view.ComicView;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

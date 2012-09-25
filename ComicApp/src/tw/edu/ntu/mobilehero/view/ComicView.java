@@ -4,10 +4,8 @@ import greendroid.widget.AsyncImageView;
 
 import java.util.ArrayList;
 
-import tw.edu.ntu.mobilehero.Comic;
 import tw.edu.ntu.mobilehero.R;
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
