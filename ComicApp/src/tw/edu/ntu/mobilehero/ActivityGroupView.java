@@ -1,51 +1,64 @@
 package tw.edu.ntu.mobilehero;
 
-import java.util.ArrayList;
-
-import android.app.ActivityGroup;
+import tw.edu.ntu.mobilehero.view.ComicView;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 
-public class ActivityGroupView extends ActivityGroup{
-	
-    public static ActivityGroupView groupView;
-    /** Back Stack */
-    private ArrayList<View> history;
+public class ActivityGroupView extends FragmentActivity implements OnClickListener{  
+    public static FragmentManager fm;  
     
+    @Override  
+    public void onCreate(Bundle savedInstanceState) {  
+        super.onCreate(savedInstanceState);  
+        setContentView(R.layout.fragment_paint);  
+        fm = getSupportFragmentManager();  
+        // 只當容器，主要內容已Fragment呈現  
+        initFragment(new BrowserFragment(this));  
+    }
+    
+    // 切換Fragment
+    public void changeFragment(Fragment f){  
+        changeFragment(f, false);  
+    }  
+    // 初始化Fragment(FragmentActivity中呼叫)  
+    public void initFragment(Fragment f){  
+        changeFragment(f, true);  
+    }  
+    private void changeFragment(Fragment f, boolean init){  
+        FragmentTransaction ft = fm.beginTransaction();  
+        ft.replace(R.id.simple_fragment, f);  
+        if(!init)  
+            ft.addToBackStack(null);  
+            ft.commitAllowingStateLoss();  
+    	}
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.history = new ArrayList<View>();
-        groupView = this;
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+            if(requestCode==1 || requestCode==0){
+            	
+            	PaintingActivity myFragment = (PaintingActivity) getSupportFragmentManager().findFragmentById(R.id.simple_fragment);
+            	myFragment.handleActivityResult(requestCode, resultCode, data);
+            	
+                    //PaintingActivity activit =(PaintingActivity)getLocalActivityManager().getCurrentActivity();
+                    //activit.handleActivityResult(requestCode, resultCode, data);
+            }
+    }
+
+    @Override
+    public void onClick(View v) {
+        // TODO Auto-generated method stub
+        Log.d("!!","on click");
         
-        View view = getLocalActivityManager().startActivity("Activity1", new Intent(ActivityGroupView.this, ComicViewActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)).getDecorView();
-        replaceView(view);
+        if(v instanceof ComicView)
+            changeFragment(new PicView(((ComicView) v).getComic()));
     }
     
-    public void replaceView(View v) {
-        history.add(v);
-        setContentView(v);
-    }
- 
-    public void back() {
-        if(history.size() > 1) {
-            history.remove(history.size()-1);
-            View v = history.get(history.size()-1);
-            setContentView(v);
-        }else {
-            finish();
-        }
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_BACK:
-                back();
-                break;
-        }
-        return true;
-    }
+    
 }

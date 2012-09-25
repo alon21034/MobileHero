@@ -1,13 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:panel="http://schemas.android.com/apk/res/tw.edu.ntu.mobilehero"
     android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:id="@+id/paint_frameLayout"
 	android:background="@drawable/back1"
+	android:paddingTop="50dip"
+	android:paddingRight="50dip"
+	android:paddingBottom="50dip"
 >
-
+    		
+    	<tw.edu.ntu.mobilehero.view.DrawView
+    	    android:id="@+id/canvasView"
+ 			android:layout_width="match_parent" 
+	    	android:layout_marginLeft="260dip"
+	    	android:layout_marginTop="130dip"
+    		android:layout_height="match_parent"/>		
+    
+    <ImageView android:id="@+id/paint_upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/upload"/>
+    
+    <ImageView android:id="@+id/paint_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/paint_upload"
+        android:src="@drawable/save"/>    
+    
+    <ImageView
+        android:id="@+id/paint_pic1"
+        android:src="@drawable/androidpic"
+        android:layout_width="120dip"
+        android:layout_height="90dip"
+        android:layout_marginLeft="260dip"
+        />
+    
+    <ImageView
+        android:id="@+id/paint_pic2"
+        android:src="@drawable/androidpic"
+        android:layout_width="120dip"
+        android:layout_height="90dip"
+        android:layout_toRightOf="@id/paint_pic1"
+        android:layout_marginLeft="10dip"/>
+    
+    <ImageView
+        android:id="@+id/paint_pic3"
+        android:src="@drawable/androidpic"
+        android:layout_width="120dip"
+        android:layout_height="90dip"
+		android:layout_toRightOf="@id/paint_pic2"
+		android:layout_marginLeft="10dip"/>
+            
+    <greendroid.widget.AsyncImageView
+        android:id="@+id/paint_preview"
+        android:layout_width="800dip"
+        android:layout_height="600dip"
+        android:src="@drawable/androidpic"
+        android:visibility="invisible"
+        android:layout_centerInParent="true" /> 
+    
 	<tw.edu.ntu.mobilehero.Panel
 	    android:layout_width="wrap_content" 
 	    android:layout_height="fill_parent" 
@@ -16,44 +71,164 @@
 	    panel:handle="@+id/panelHandle1"
 	    panel:content="@+id/panelContent"
 	    panel:position="left"
-	    android:layout_marginLeft="100dip"
+	    android:layout_marginLeft="160dip"
 	    panel:animationDuration="1000"
-		panel:openedHandle="@layout/left_switcher_expanded_background"
-		panel:closedHandle="@layout/left_switcher_collapsed_background"	
+		panel:openedHandle="@drawable/left_switcher_expanded_background"
+		panel:closedHandle="@drawable/left_switcher_collapsed_background"	
 	>
-		<!--
-			maybe instead of specifying android:layout_gravity and/or
-			optional android:layout_margin* we should introduce top/left
-			padding?
-			
-			e.g. instead of
-		    android:layout_gravity="center"
-			android:layout_marginTop="-110dip"
-			
-			we could write:
-			panel:handlePosition="center:-110dip"
-		-->
 		<Button
 			android:id="@+id/panelHandle1" 
-		    android:layout_width="33dip" 
-		    android:layout_height="wrap_content"
+		    android:layout_width="100dip" 
+		    android:layout_height="100dip"
 		    android:layout_gravity="center"
-		    android:layout_marginBottom="132dip"
+		    android:layout_marginBottom="200dip"
 		/>
-		<TextView
-			android:id="@+id/panelContent" 
-		    android:layout_width="wrap_content" 
-		    android:layout_height="fill_parent" 
-		    android:gravity="center"
-		    android:padding="4dip"
-		    android:text="Expo Interpolator\n\nRight content #1"
-		    android:textSize="16dip"
-		    android:textColor="#eee"
-		    android:textStyle="bold"
-		    android:background="#329999"
-		    		    android:layout_marginTop="100dip"
-		    android:layout_marginBottom="100dip"
-		/>
+		<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		    android:id="@+id/panelContent"
+		    android:background="#d0329999"
+ 			android:layout_width="250dip" 
+    		android:layout_height="fill_parent"
+    		android:paddingLeft="50dip"
+    		android:paddingRight="30dip"
+    		android:paddingTop="50dip"
+    		android:paddingBottom="50dip"
+    		android:layout_marginTop="100dip"
+    		android:layout_marginBottom="100dip" > 
+    		
+ 		<GridView xmlns:android="http://schemas.android.com/apk/res/android" 
+    		android:id="@+id/paint_pen"
+    		android:layout_width="wrap_content" 
+    		android:layout_height="fill_parent"
+    		android:columnWidth="50dip"
+    		android:numColumns="2"
+    		android:verticalSpacing="10dp"
+    		android:horizontalSpacing="10dp"
+    		android:stretchMode="columnWidth"
+    		android:gravity="left" />
+ 		
+ 		
+ 		<!--
+		<ImageView
+		    android:id="@+id/paint_blackpen"
+		    android:src="@drawable/blackpen"
+		    android:layout_width="50dip"
+		    android:layout_height="50dip"/>
+		
+		<ImageView
+		    android:id="@+id/paint_graypen"
+		    android:src="@drawable/gray"
+		    android:layout_toRightOf="@id/paint_blackpen"
+		    android:layout_marginLeft="20dip"
+		    android:layout_width="50dip"
+		    android:layout_height="50dip"/>		
+		    
+		<ImageView
+		    android:id="@+id/paint_redpen"
+		    android:src="@drawable/red"
+		    android:layout_marginTop="20dip"
+		    android:layout_below="@id/paint_blackpen"
+		    android:layout_width="50dip"
+		    android:layout_height="50dip"/>
+		
+		<ImageView
+		    android:id="@+id/paint_yellowpen"
+		    android:src="@drawable/yellow"
+		    android:layout_marginTop="20dip"
+		    android:layout_toRightOf="@id/paint_redpen"
+		    android:layout_below="@+id/paint_graypen"
+		    android:layout_marginLeft="20dip"
+		    android:layout_width="50dip"
+		    android:layout_height="50dip"/>		
+				
+		<ImageView
+		    android:id="@+id/paint_pinkpen"
+		    android:src="@drawable/pink"
+		    android:layout_marginTop="20dip"
+		    android:layout_below="@id/paint_redpen"
+		    android:layout_width="50dip"
+		    android:layout_height="50dip"/>
+
+		<ImageView
+		    android:id="@+id/paint_yellowgreenpen"
+		    android:src="@drawable/yellowgreen"
+		    android:layout_toRightOf="@id/paint_pinkpen"
+		    android:layout_below="@id/paint_yellowpen"
+		    android:layout_marginLeft="20dip"
+		    android:layout_marginTop="20dip"
+		    android:layout_width="50dip"
+		    android:layout_height="50dip"/>				
+		
+		
+		<ImageView
+		    android:id="@+id/paint_greenpen"
+		    android:src="@drawable/green"
+		    android:layout_below="@id/paint_pinkpen"
+		    android:layout_marginTop="20dip"
+		    android:layout_width="50dip"
+		    android:layout_height="50dip"/>
+
+		<ImageView
+		    android:id="@+id/paint_bluepen"
+		    android:src="@drawable/blue"
+		    android:layout_toRightOf="@id/paint_greenpen"
+		    android:layout_below="@id/paint_yellowgreenpen"
+		    android:layout_marginLeft="20dip"
+		    android:layout_marginTop="20dip"
+		    android:layout_width="50dip"
+		    android:layout_height="50dip"/>		
+		    
+		<ImageView
+		    android:id="@+id/paint_bluegreenpen"
+		    android:src="@drawable/bluegreen"
+		    android:layout_below="@id/paint_greenpen"
+		    android:layout_marginTop="20dip"
+		    android:layout_width="50dip"
+		    android:layout_height="50dip"/>
+
+		<ImageView
+		    android:id="@+id/paint_whitepen"
+		    android:src="@drawable/white"
+		    android:layout_toRightOf="@id/paint_bluegreenpen"
+		    android:layout_below="@id/paint_bluepen"
+		    android:layout_marginLeft="20dip"
+		    android:layout_marginTop="20dip"
+		    android:layout_width="50dip"
+		    android:layout_height="50dip"/>				    
+		    
+		<ImageView
+		    android:id="@+id/paint_radius3"
+		    android:src="@drawable/radius3"
+		    android:layout_alignParentBottom="true"
+		    android:layout_width="50dip"
+		    android:layout_height="50dip"/>	
+		    						
+		<ImageView
+		    android:id="@+id/paint_radius4"
+		    android:src="@drawable/radius4"
+		    android:layout_alignParentBottom="true"
+		    android:layout_toRightOf="@id/paint_radius3"
+		    android:layout_marginLeft="20dip"
+		    android:layout_width="50dip"
+		    android:layout_height="50dip"/>	
+
+		<ImageView
+		    android:id="@+id/paint_radius1"
+		    android:src="@drawable/radius1"
+		    android:layout_above="@id/paint_radius3"
+		    android:layout_width="50dip"
+		    android:layout_height="50dip"/>	
+		    						
+		<ImageView
+		    android:id="@+id/paint_radius2"
+		    android:src="@drawable/radius2"
+		    android:layout_above="@id/paint_radius4"
+		    android:layout_toRightOf="@id/paint_radius1"
+		    android:layout_marginLeft="20dip"
+		    android:layout_width="50dip"
+		    android:layout_height="50dip"/>			
+				    		 -->
+				    		 
+	</RelativeLayout>		    		 
 	</tw.edu.ntu.mobilehero.Panel>
 	<tw.edu.ntu.mobilehero.Panel
 	    android:layout_width="wrap_content" 
@@ -63,18 +238,18 @@
 	    panel:handle="@+id/panelHandle2"
 	    panel:content="@+id/panelContent"
 	    panel:position="left"
-	    android:layout_marginLeft="100dip"
+	    android:layout_marginLeft="160dip"
 	    panel:animationDuration="666"
-	    panel:openedHandle="@layout/left_switcher_expanded_background"
-	    panel:closedHandle="@layout/left_switcher_collapsed_background"
+	    panel:openedHandle="@drawable/left_switcher_expanded_background"
+	    panel:closedHandle="@drawable/left_switcher_collapsed_background"
 	    panel:linearFlying="true"
 	>
 		<Button
 			android:id="@+id/panelHandle2" 
-		    android:layout_width="33dip" 
-		    android:layout_height="wrap_content"
+		    android:layout_width="100dip" 
+		    android:layout_height="100dip"
 		    android:layout_gravity="center"
-		    android:layout_marginBottom="66dip"
+		    android:layout_marginBottom="100dip"
 		/>
 
 		<TextView
@@ -100,16 +275,16 @@
 	    panel:handle="@+id/panelHandle3"
 	    panel:content="@+id/panelContent"
 	    panel:position="left"
-	    android:layout_marginLeft="100dip"
+	    android:layout_marginLeft="160dip"
 	    panel:animationDuration="333"
-	    panel:openedHandle="@layout/left_switcher_expanded_background"
-	    panel:closedHandle="@layout/left_switcher_collapsed_background"
+	    panel:openedHandle="@drawable/left_switcher_expanded_background"
+	    panel:closedHandle="@drawable/left_switcher_collapsed_background"
 	    panel:linearFlying="true"
 	>
 		<Button
 			android:id="@+id/panelHandle3" 
-		    android:layout_width="33dip" 
-		    android:layout_height="wrap_content"
+		    android:layout_width="100dip" 
+		    android:layout_height="100dip"
 		    android:layout_gravity="center"
 		/>
 		<TextView
@@ -132,87 +307,66 @@
 	    android:layout_height="fill_parent"
 	    android:id="@+id/rightPanel4"
 	    android:layout_gravity="left"
-	    android:layout_marginLeft="100dip"
+	    android:layout_marginLeft="160dip"
 	    panel:handle="@+id/panelHandle4"
 	    panel:content="@+id/panelContent"
 	    panel:position="left"
 	    panel:animationDuration="666"
-	    panel:openedHandle="@layout/left_switcher_expanded_background"
-	    panel:closedHandle="@layout/left_switcher_collapsed_background"
+	    panel:openedHandle="@drawable/left_switcher_expanded_background"
+	    panel:closedHandle="@drawable/left_switcher_collapsed_background"
 	    panel:linearFlying="true"
 	>
 		<Button
 			android:id="@+id/panelHandle4" 
-		    android:layout_width="33dip" 
-		    android:layout_height="wrap_content"
+		    android:layout_width="100dip" 
+		    android:layout_height="100dip"
 		    android:layout_gravity="center"
-		    android:layout_marginTop="66dip"
-		    android:layout_weight="10"
-		/>
-		<TextView
-			android:id="@+id/panelContent" 
-		    android:layout_width="wrap_content" 
-		    android:layout_height="fill_parent"
-		    android:gravity="center"
-		    android:padding="4dip"
-		    android:text="Default Interpolator\n\nRight content #4\n\nweight == 100%p so it expands to full width"
-		    android:textSize="16dip"
-		    android:textColor="#eee"
-		    android:textStyle="bold"
-		    android:background="#329999"
-		    		    android:layout_marginTop="100dip"
-		    android:layout_marginBottom="100dip"
-		/>
-	</tw.edu.ntu.mobilehero.Panel>
-<tw.edu.ntu.mobilehero.Panel
-	    android:layout_width="wrap_content" 
-	    android:layout_height="fill_parent"
-	    android:id="@+id/rightPanel5"
-	    android:layout_gravity="left"
-	    android:layout_marginLeft="180dip"
-	    panel:handle="@+id/panelHandle5"
-	    panel:content="@+id/panelContent"
-	    panel:position="left"
-	    panel:animationDuration="666"
-	    panel:openedHandle="@layout/left_switcher_expanded_background"
-	    panel:closedHandle="@layout/left_switcher_collapsed_background"
-	    panel:linearFlying="true"
-	>
-		<Button
-			android:id="@+id/panelHandle5" 
-		    android:layout_width="33dip" 
-		    android:layout_height="wrap_content"
-		    android:layout_gravity="center"
-		    android:layout_marginTop="132dip"
-		/>
-		<TextView
-			android:id="@+id/panelContent" 
-		    android:layout_width="wrap_content" 
-		    android:layout_height="fill_parent"
-		    android:gravity="center"
-		    android:padding="4dip"
-		    android:text="Default Interpolator\n\nRight content #5\n\nweight == 100%p so it expands to full width"
-		    android:textSize="16dip"
-		    android:textColor="#eee"
-		    android:textStyle="bold"
-		    android:background="#329999"
 		    android:layout_marginTop="100dip"
-		    android:layout_marginBottom="100dip"
-		/>
-	</tw.edu.ntu.mobilehero.Panel>	
-	<RelativeLayout
-	    android:orientation="vertical"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:paddingLeft="37dip"
-		android:paddingRight="37dip"
+		    android:layout_weight="10" />
+		<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		    android:id="@+id/panelContent"
+		    android:background="#d0329999"
+ 			android:layout_width="500dip" 
+    		android:layout_height="fill_parent"
+    		android:paddingLeft="50dip"
+    		android:paddingRight="30dip"
+    		android:paddingTop="50dip"
+    		android:paddingBottom="50dip"
+    		android:layout_marginTop="100dip"
+    		android:layout_marginBottom="100dip" > 
+    		
+		<GridView xmlns:android="http://schemas.android.com/apk/res/android" 
+    		android:id="@+id/gridview"
+    		android:layout_width="wrap_content" 
+    		android:layout_height="fill_parent"
+    		android:columnWidth="90dp"
+    		android:numColumns="3"
+    		android:verticalSpacing="10dp"
+    		android:horizontalSpacing="10dp"
+    		android:stretchMode="columnWidth"
+    		android:gravity="left" />
+					    
+		</RelativeLayout>
+	</tw.edu.ntu.mobilehero.Panel>
+
 	>
-        <ImageView
-            android:id="@+id/paint_toolbar"
-            android:layout_width="135dip"
-            android:layout_height="630dip" 
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="80dip"
-            android:src="@drawable/toolbar" />
-	</RelativeLayout>
-</FrameLayout>
+		<ImageView
+			android:id="@+id/paint_camera" 
+		    android:layout_width="100dip" 
+		    android:layout_height="100dip"
+		    android:layout_marginLeft="160dip"
+		    android:src="@drawable/ic_launcher"
+		    android:layout_gravity="center"
+		    android:layout_marginTop="200dip"
+		    android:layout_weight="10" 
+		    android:layout_below="@id/panelHandle4"/>
+		
+		<ImageView
+		    android:id="@+id/paint"
+		    android:layout_centerInParent="true"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:src="@drawable/dialog2" />
+		
+
+</RelativeLayout>

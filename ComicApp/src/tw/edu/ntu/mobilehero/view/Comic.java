@@ -1,4 +1,4 @@
-package tw.edu.ntu.mobilehero;
+package tw.edu.ntu.mobilehero.view;
 
 public class Comic {	
     private String[] mUrl = {"","","",""};

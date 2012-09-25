@@ -3,6 +3,8 @@ package tw.edu.ntu.mobilehero;
 import java.util.ArrayList;
 
 import android.app.ActivityGroup;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -35,7 +37,22 @@ public class ActivityGroupSetting extends ActivityGroup{
             View v = history.get(history.size()-1);
             setContentView(v);
         }else {
-            finish();
+            new AlertDialog.Builder(this)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setTitle("Exit?")
+            .setMessage("Do you want to exit?")
+            .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    //Stop the activity
+                    finish();    
+                }
+
+            })
+            .setNegativeButton("no", null)
+            .show();
         }
     }
 

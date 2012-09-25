@@ -18,8 +18,8 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import tw.edu.ntu.mobilehero.Comic;
 import tw.edu.ntu.mobilehero.Utils;
+import tw.edu.ntu.mobilehero.view.Comic;
 import android.os.AsyncTask;
 import android.util.Log;
 

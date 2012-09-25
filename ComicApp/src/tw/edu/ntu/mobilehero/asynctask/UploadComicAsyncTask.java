@@ -14,8 +14,8 @@ import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import tw.edu.ntu.mobilehero.Comic;
 import tw.edu.ntu.mobilehero.Utils;
+import tw.edu.ntu.mobilehero.view.Comic;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;

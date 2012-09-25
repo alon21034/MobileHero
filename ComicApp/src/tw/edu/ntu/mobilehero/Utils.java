@@ -1,8 +1,12 @@
 package tw.edu.ntu.mobilehero;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -20,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -252,5 +257,38 @@ public class Utils {
         return (cm.getActiveNetworkInfo() != null
                 && cm.getActiveNetworkInfo().isAvailable()
                 && cm.getActiveNetworkInfo().isConnected());
+    }
+    
+    public static void copyFile(File sourceFile, File destFile) throws IOException {
+        if (!destFile.exists() && !destFile.createNewFile())
+            throw new IOException("Could not create " + destFile.toString());
+
+        FileChannel source = null;
+        FileChannel destination = null;
+
+        try {
+            source = new FileInputStream(sourceFile).getChannel();
+            destination = new FileOutputStream(destFile).getChannel();
+            destination.transferFrom(source, 0, source.size());
+        } finally {
+            if (source != null) {
+                source.close();
+            }
+            if (destination != null) {
+                destination.close();
+            }
+        }
+    }
+    
+    public static void dismissDialog(Dialog dialog) {
+        // Check if the dialog is showing before dismiss
+        if (dialog != null && dialog.isShowing()) {
+            try {
+                dialog.dismiss();
+            } catch (IllegalArgumentException ex) {
+                // java.lang.IllegalArgumentException: View not attached to window manager
+                ex.printStackTrace();
+            }
+        }
     }
 }

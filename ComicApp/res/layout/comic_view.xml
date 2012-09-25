@@ -1,27 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    xmlns:app="http://schemas.android.com/apk/res/tw.edu.ntu.mobilehero">
     
     <greendroid.widget.AsyncImageView
         android:id="@+id/comic_1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="200dip"
+        android:layout_height="150dip"
+        android:scaleType="fitXY"
         />
     <greendroid.widget.AsyncImageView
         android:id="@+id/comic_2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/comic_1"
+        android:layout_marginLeft="5dip"
+        android:layout_width="200dip"
+        android:layout_height="150dip"
+        android:scaleType="fitXY"
         />
     <greendroid.widget.AsyncImageView
         android:id="@+id/comic_3"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_below="@id/comic_1"
+        android:layout_marginTop="5dip"
+        android:layout_width="200dip"
+        android:layout_height="150dip"
+        android:scaleType="fitXY"
         />
     <greendroid.widget.AsyncImageView
         android:id="@+id/comic_4"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/comic_3"
+        android:layout_below="@id/comic_2"
+        android:layout_marginTop="5dip"
+        android:layout_marginLeft="5dip"
+        android:layout_width="200dip"
+        android:layout_height="150dip"
+        android:scaleType="fitXY"
         />
-</LinearLayout>
+    <ImageView
+        android:id="@+id/comic_number"
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:layout_centerInParent="true"
+        android:src="@drawable/number"/>
+    
+</RelativeLayout>

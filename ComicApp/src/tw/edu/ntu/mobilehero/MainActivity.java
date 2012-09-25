@@ -30,7 +30,6 @@ public class MainActivity extends ActivityGroup {
 	Facebook facebook = new Facebook("311185528978877");
 	
 	private SharedPreferences mPrefs;
-	@SuppressWarnings("deprecation")
     @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -75,7 +74,6 @@ public class MainActivity extends ActivityGroup {
 	}
 
 
-	@SuppressWarnings("deprecation")
     private void parseHorizontalTab() {
 
 		final TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
@@ -119,7 +117,7 @@ public class MainActivity extends ActivityGroup {
 				.newTabSpec("tab5")
 				.setIndicator(
 						createIndicatorView(this, tabHost, icon_tab_5, ""))
-						.setContent(new Intent(this, ActivityGroupView.class)));
+						.setContent(new Intent(this, ActivityGroupView1.class)));
 		
 		tabHost.addTab(tabHost
 				.newTabSpec("tab6")
