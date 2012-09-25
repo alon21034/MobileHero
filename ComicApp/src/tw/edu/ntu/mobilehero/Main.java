@@ -16,8 +16,7 @@ import android.widget.Toast;
 
 public class Main extends Activity{
     
-    private LinearLayout mTopScrollView;
-    private LinearLayout mBotScrollView;
+    private LinearLayout mScrollView;
 
     OnClickListener listener = new OnClickListener() {
         
@@ -30,7 +29,7 @@ public class Main extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_browser);
+        setContentView(R.layout.activity_browser_main);
 		
         if (!Utils.hasInternetConnection(this)) {
             Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show();
@@ -39,26 +38,18 @@ public class Main extends Activity{
         }
 
         
-        mTopScrollView = (LinearLayout) findViewById(R.id.browser_horizontalscroll_top);
-        mBotScrollView = (LinearLayout) findViewById(R.id.browser_horizontalscroll_down);
+        mScrollView = (LinearLayout) findViewById(R.id.mainbrowser_horizontalscroll);
         
         DownloadComicAsyncTask mAsyncTask = new DownloadComicAsyncTask() {
             @Override
             protected void onPostExecute(ArrayList<Comic> result) {
                 super.onPostExecute(result);
                 
-                boolean flag = false;
                 for(Comic c : result){
                     ComicView child = new ComicView(getApplicationContext(), listener);
                     child.setLayoutParams(new GridView.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.MATCH_PARENT));
                     child.addComic(c);
-                    if(!flag) {
-                        mTopScrollView.addView(child);
-                        flag = true;
-                    } else {
-                        mBotScrollView.addView(child);
-                        flag = false;
-                    }
+                    mScrollView.addView(child);
                 }
             }
         };
