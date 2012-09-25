@@ -8,8 +8,8 @@ import java.io.InputStream;
 import tw.edu.ntu.mobilehero.EasingType.Type;
 import tw.edu.ntu.mobilehero.MultiTouchController.OnFlickListener;
 import tw.edu.ntu.mobilehero.Panel.OnPanelListener;
-import tw.edu.ntu.mobilehero.view.Comic;
 import tw.edu.ntu.mobilehero.view.DrawView;
+import tw.edu.ntu.mobilehero.view.ImageScrap;
 import tw.edu.ntu.mobilehero.view.DrawView.State;
 import tw.edu.ntu.mobilehero.view.Scrap;
 import android.annotation.TargetApi;
@@ -37,7 +37,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 @TargetApi(11)
@@ -47,21 +46,20 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
 	private Panel panel2;
 	private Panel panel3;
 	private Panel panel4;
+	private Panel panel5;
 	private ImageView tool;
 	private ImageView pic1;
 	private ImageView pic2;
 	private ImageView pic3;
-	private AsyncImageView preview;
+	private ImageView preview;
 	private ImageView imageView;
 	private ImageView upload;
 	private ImageView save;
 	private GridView gridview;
 	private GridView penbox;
-	private ImageView cameraButton;
     private Bitmap myBitmap;  
     private byte[] mContent;
     private int resource;
-    private Comic comic;
     
     private Context context;
     
@@ -108,6 +106,7 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
 	    
 	}
     
+	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //super.onCreate(savedInstanceState);
@@ -132,38 +131,13 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
         panel4 = (Panel) v.findViewById(R.id.rightPanel4);
         panel4.setOnPanelListener(this);
         panel4.setInterpolator(new BackInterpolator(Type.OUT, 2));
+        
+        panel5 = (Panel) v.findViewById(R.id.rightPanel5);
+        panel5.setOnPanelListener(this);
+        panel5.setInterpolator(new BackInterpolator(Type.OUT, 2));
  
         imageView = (ImageView) v.findViewById(R.id.paint);
-        
-        cameraButton = (ImageView) v.findViewById(R.id.paint_camera);
-        cameraButton.setOnClickListener(new OnClickListener(){
-            @Override  
-            public void onClick(View vv) {  
-                // TODO Auto-generated method stub  
-                final CharSequence[] items = { "From Gallery", "From camera" };  
-                  
-                AlertDialog dlg = new AlertDialog.Builder(getActivity()).setTitle("Select Resource").setItems(items,   
-                        new DialogInterface.OnClickListener() {  
-                              
-                            @Override  
-                            public void onClick(DialogInterface dialog, int which) {  
-                                // TODO Auto-generated method stub  
-                                if(which==1){  
-                                    Intent getImageByCamera  = new Intent("android.media.action.IMAGE_CAPTURE");  
-                                    getActivity().startActivityForResult(getImageByCamera, 1);  
-                                }else{  
-                                    Intent getImage = new Intent(Intent.ACTION_GET_CONTENT);  
-                                    getImage.addCategory(Intent.CATEGORY_OPENABLE);  
-                                    getImage.setType("image/jpeg");  
-                                    getActivity().startActivityForResult(getImage, 0);  
-                                }  
-                                  
-                            }  
-                        }).create();  
-                dlg.show();  
-            }  
 
-		});
         
         
         tool = new ImageView(getActivity());
@@ -187,7 +161,7 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
         preview = (AsyncImageView) v.findViewById(R.id.paint_preview);
         
         LayoutInflater prospect = inflater;
-        v.addView(( prospect.inflate(R.layout.tool, null)), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+        getActivity().addContentView( prospect.inflate(R.layout.tool, null), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
         ViewGroup.LayoutParams.MATCH_PARENT));
         
         upload = (ImageView) v.findViewById(R.id.paint_upload);
@@ -274,19 +248,15 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
     			}
             }
         });
-        //
-        // 要畫畫的時候
-        // canvasView.isDrawing要設成true! 要加圖片或移動縮放圖片時要改成false
+
         canvasView = (DrawView) v.findViewById(R.id.canvasView);
         canvasView.setOnFlickListener(this);
         canvasView.getPaint().setAntiAlias(true);
         canvasView.getPaint().setDither(true);
-        // 調顏色!!!
         canvasView.getPaint().setColor(Color.BLACK);
         canvasView.getPaint().setStyle(Paint.Style.STROKE);
         canvasView.getPaint().setStrokeJoin(Paint.Join.ROUND);
         canvasView.getPaint().setStrokeCap(Paint.Cap.ROUND);
-        //調線條寬度!!!
         canvasView.getPaint().setStrokeWidth(12);
         
         return v;
@@ -297,12 +267,76 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
 		// TODO Auto-generated method stub
 		String panelName = getResources().getResourceEntryName(panel.getId());
 		Log.d("TestPanels", "Panel [" + panelName + "] closed");
+		if(panelName.equals("rightPanel5")){
+			
+            final CharSequence[] items = { "From Gallery", "From camera" };  
+            
+            AlertDialog dlg = new AlertDialog.Builder(getActivity()).setTitle("Select Resource").setItems(items,   
+                    new DialogInterface.OnClickListener() {  
+                          
+                        @Override  
+                        public void onClick(DialogInterface dialog, int which) {  
+                            // TODO Auto-generated method stub  
+                            if(which==1){  
+                                Intent getImageByCamera  = new Intent("android.media.action.IMAGE_CAPTURE");  
+                                getActivity().startActivityForResult(getImageByCamera, 1);  
+                            }else{  
+                                Intent getImage = new Intent(Intent.ACTION_GET_CONTENT);  
+                                getImage.addCategory(Intent.CATEGORY_OPENABLE);  
+                                getImage.setType("image/jpeg");  
+                                getActivity().startActivityForResult(getImage, 0);  
+                            }  
+                              
+                        }  
+                    }).create();  
+            dlg.show();  
+			
+			
+		}else if (panelName.equals("rightPanel3")){
+			////////////
+			// eraser.//
+			////////////
+		}		
+		
 	}
 	@Override
 	public void onPanelOpened(Panel panel) {
 		// TODO Auto-generated method stub
 		String panelName = getResources().getResourceEntryName(panel.getId());
 		Log.d("TestPanels", "Panel [" + panelName + "] opened" + panel.getId());
+		
+		if(panelName.equals("rightPanel5")){
+			
+            final CharSequence[] items = { "From Gallery", "From camera" };  
+            
+            AlertDialog dlg = new AlertDialog.Builder(getActivity()).setTitle("Select Resource").setItems(items,   
+                    new DialogInterface.OnClickListener() {  
+                          
+                        @Override  
+                        public void onClick(DialogInterface dialog, int which) {  
+                            // TODO Auto-generated method stub  
+                            if(which==1){  
+                                Intent getImageByCamera  = new Intent("android.media.action.IMAGE_CAPTURE");  
+                                getActivity().startActivityForResult(getImageByCamera, 1);  
+                            }else{  
+                                Intent getImage = new Intent(Intent.ACTION_GET_CONTENT);  
+                                getImage.addCategory(Intent.CATEGORY_OPENABLE);  
+                                getImage.setType("image/jpeg");  
+                                getActivity().startActivityForResult(getImage, 0);  
+                            }  
+                              
+                        }  
+                    }).create();  
+            dlg.show();  
+			
+			
+		}else if (panelName.equals("rightPanel3")){
+			///////////
+			//eraser.//
+			///////////
+		}
+		
+		
 	}
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {

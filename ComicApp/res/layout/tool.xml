@@ -8,7 +8,7 @@
     android:id="@+id/tool_toolbar"
     android:layout_width="135dip"
     android:layout_height="630dip"
-    android:layout_marginLeft="100dip"
+    android:layout_marginLeft="110dip"
     android:layout_centerVertical="true"
     android:src="@drawable/toolbar"/>
 
