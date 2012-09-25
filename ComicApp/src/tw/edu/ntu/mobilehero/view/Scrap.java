@@ -9,7 +9,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.util.FloatMath;
-import android.util.Log;
 
 public abstract class Scrap {
 
@@ -99,7 +98,7 @@ public abstract class Scrap {
         final float range = (float) Math.PI / 6;
         float an = randomBetween(-range, range);
 
-        setPos(500, 400, scale, an);
+        setPos(cx, cy, scale, an);
     }
 
     /**
@@ -108,10 +107,9 @@ public abstract class Scrap {
      * for example, after TextScrap changes and Clipping.
      */
     public void makeOnScreen() {
-        Log.d("!!","!! make on screen") ;
         if (mCenterX<0 || mCenterX>640 || mCenterY<0 || mCenterY>480) {
-            mCenterX = 300;
-            mCenterY = 300;
+            mCenterX = 240;
+            mCenterY = 240;
             updateTransformations();
         }
     }
@@ -182,7 +180,6 @@ public abstract class Scrap {
 
     public void draw(Canvas canvas) {
         // TODO(jfw): If slow, this can be cached.
-        Log.d("!!","scrap draw");   
         Matrix m = new Matrix(mScrapToScreen);
 
         if (mTransientPostTransformation != null)
@@ -190,7 +187,6 @@ public abstract class Scrap {
         if (mTransientPreTransformation != null)
             m.preConcat(mTransientPreTransformation);
 
-        canvas.translate(100, 20);
         canvas.setMatrix(m);
     }
 

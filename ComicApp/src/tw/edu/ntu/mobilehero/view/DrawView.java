@@ -12,9 +12,11 @@ import tw.edu.ntu.mobilehero.view.PictureFiles.BitmapFile;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.util.AttributeSet;
@@ -35,7 +37,7 @@ public class DrawView extends View implements MultiTouchObjectCanvas<Scrap>{
     private MultiTouchController<Scrap> multiTouchController;
     private Path mPath;
     private Bitmap  mBitmap;
-    private Canvas  mCanvas;
+    public Canvas  mCanvas;
     
     private boolean isChanged = false;
     public static Paint paint = new Paint();
@@ -64,6 +66,7 @@ public class DrawView extends View implements MultiTouchObjectCanvas<Scrap>{
     
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    	Log.d("CONSTRUCT", "onSizeChanged");
         super.onSizeChanged(w, h, oldw, oldh);
         
         mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
@@ -101,20 +104,6 @@ public class DrawView extends View implements MultiTouchObjectCanvas<Scrap>{
         }
     }
     
-    public void addScrap(int id) {
-        BitmapFile bmpFile;
-        try {
-            bmpFile = PictureFiles.loadResourcePicture(mContext, id);
-            ImageScrap imageScrap = new ImageScrap(bmpFile.bmp, bmpFile.file);
-            mScraps.add(imageScrap);
-            
-            Log.d("!!","add scrap");
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-    
     public void addScrap(Scrap scrap) {
         mScraps.add(scrap);
         setChanged(true);
@@ -133,7 +122,6 @@ public class DrawView extends View implements MultiTouchObjectCanvas<Scrap>{
     
     public boolean onTouchEvent(MotionEvent event) {
         if(state == State.Picture) {
-            Log.d("!!","!!");
             return multiTouchController.onTouchEvent(event);
         } else {
             float x = event.getX();
@@ -189,7 +177,6 @@ public class DrawView extends View implements MultiTouchObjectCanvas<Scrap>{
     
     @Override
     protected void onDraw(Canvas canvas) {
-        Log.d("!!", "on draw");
         canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
         canvas.drawPath(mPath, paint);
         for (Scrap scrap : mScraps) {
@@ -199,7 +186,7 @@ public class DrawView extends View implements MultiTouchObjectCanvas<Scrap>{
     
     @Override
     public Scrap getDraggableObjectAtPoint(PointInfo pt) {
-        return getDraggableObjectAtPoint(pt.getX() , pt.getY());
+        return getDraggableObjectAtPoint(pt.getX()+100, pt.getY()+70);
     }
 
     public Scrap getDraggableObjectAtPoint(float x, float y) {
@@ -250,5 +237,12 @@ public class DrawView extends View implements MultiTouchObjectCanvas<Scrap>{
     
     public Paint getPaint() {
         return paint;
+    }
+    
+    public void loadPanel(String filePath) {
+    	Bitmap panelBitmap = BitmapFactory.decodeFile(filePath);
+    	mBitmap = panelBitmap;
+    	mCanvas.drawBitmap(
+    			panelBitmap, null, new Rect(0, 0, panelBitmap.getWidth(), panelBitmap.getHeight()), null);
     }
 }

@@ -1,16 +1,20 @@
 package tw.edu.ntu.mobilehero;
 
+import greendroid.sql.FileManager;
+import greendroid.sql.FileManager.FileInfo;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -19,46 +23,61 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-public class OpenFileActivity extends Activity {
-	private List<String> mPanelPaths = new ArrayList<String>();
+public class OpenFileActivity extends Fragment {
+	private List<File> mPanelFiles = new ArrayList<File>();
 	private List<Bitmap> mPanelBitmaps = new ArrayList<Bitmap>();
 		
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.open_existing_panel);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    	Log.d("OpenFileActivity", "onCreateView");
+    	View v = inflater.inflate(R.layout.open_existing_panel, container, false);
         
         getPanels();
-        GridView gridView = (GridView) findViewById(R.id.gridview);
+        GridView gridView = (GridView) v.findViewById(R.id.gridview);
         gridView.setAdapter(new PanelAdapter());
         gridView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
-				Intent intent = new Intent();
-				Bundle bundle = new Bundle();
-				bundle.putString("filePath", mPanelPaths.get(position));
-				intent.putExtras(bundle);
-				setResult(RESULT_OK, intent);
-				finish();
+				String fileName = mPanelFiles.get(position).getName();
+				
+				FileManager fileManager = new FileManager(getActivity());
+				fileManager.open();
+				FileInfo fileInfo = fileManager.getFileInfo(fileName);
+//				Log.d("identifier", fileInfo.getIdentifier());
+//				Log.d("sequence", String.valueOf(fileInfo.getSequence()));
+				fileManager.close();
+				
+				if(getActivity() instanceof ActivityGroupEdit) {
+					FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+					Bundle bundle = new Bundle();
+					bundle.putString("filePath", mPanelFiles.get(position).getAbsolutePath());
+//					bundle.putString("identifier", fileInfo.getIdentifier());
+//					bundle.putInt("sequence", fileInfo.getSequence());
+					ft.replace(R.id.simple_fragment, new PaintingActivity(bundle));
+					ft.addToBackStack(null); 
+					ft.commitAllowingStateLoss(); 
+				}
+				
+//				ActivityGroupEdit.changeFragment(new PaintingActivity());
 			}
         	
         });
+        return v;
     }
 
     
 
     private void getPanels() {        
-    	File sdcardDir = Environment.getExternalStorageDirectory();
-    	File ComicRelaysDir = new File(sdcardDir, "ComicRelays");
+    	File panelStorageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+    	File ComicRelaysDir = new File(panelStorageDir, "ComicRelays");
     	
     	if (ComicRelaysDir.exists()) {
     		File[] files = ComicRelaysDir.listFiles();
 	        for (File file : files) {
 	        	if (file.isFile()) {
-	        		Log.d("file", file.getAbsolutePath());
+	        		Log.d("fileName", file.getName());
 	        		Bitmap panel = BitmapFactory.decodeFile(file.getAbsolutePath());
-	        		mPanelPaths.add(file.getAbsolutePath());
+	        		mPanelFiles.add(file);
 	        		mPanelBitmaps.add(panel);
 	        	}
 	        }
@@ -73,7 +92,7 @@ public class OpenFileActivity extends Activity {
             ImageView i;
 
             if (convertView == null) {
-                i = new ImageView(OpenFileActivity.this);
+                i = new ImageView(getActivity());
                 i.setScaleType(ImageView.ScaleType.CENTER);
                 i.setLayoutParams(new GridView.LayoutParams(280, 210));
             } else {

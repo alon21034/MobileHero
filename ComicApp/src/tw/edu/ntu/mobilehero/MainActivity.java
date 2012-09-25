@@ -1,11 +1,14 @@
 package tw.edu.ntu.mobilehero;
 
+import greendroid.sql.FileManager;
+import greendroid.sql.FileManager.FileInfo;
 import android.app.ActivityGroup;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -30,6 +33,7 @@ public class MainActivity extends ActivityGroup {
 	Facebook facebook = new Facebook("311185528978877");
 	
 	private SharedPreferences mPrefs;
+	@SuppressWarnings("deprecation")
     @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,39 +45,11 @@ public class MainActivity extends ActivityGroup {
 		setContentView(R.layout.main_tab_horizontal);
 		parseHorizontalTab();
 		
-		mPrefs = getPreferences(MODE_PRIVATE);
-        String access_token = mPrefs.getString("access_token", null);
-        long expires = mPrefs.getLong("access_expires", 0);
-        if(access_token != null) {
-            facebook.setAccessToken(access_token);
-        }
-        if(expires != 0) {
-            facebook.setAccessExpires(expires);
-        }
-                
-        if(!facebook.isSessionValid()) {
-            facebook.authorize(MainActivity.this, new String[] {}, Facebook.FORCE_DIALOG_AUTH, new DialogListener() {
-                @Override
-                public void onComplete(Bundle values) {
-                    SharedPreferences.Editor editor = mPrefs.edit();
-                    editor.putString("access_token", facebook.getAccessToken());
-                    editor.putLong("access_expires", facebook.getAccessExpires());
-                    editor.commit();
-                }
-    
-                @Override
-                public void onFacebookError(FacebookError error) {}
-    
-                @Override
-                public void onError(DialogError e) {}
-    
-                @Override
-                public void onCancel() {}
-            });
-        }
+		Utils.login(getCurrentActivity());
 	}
 
 
+	@SuppressWarnings("deprecation")
     private void parseHorizontalTab() {
 
 		final TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
@@ -99,32 +75,25 @@ public class MainActivity extends ActivityGroup {
 				.newTabSpec("tab2")
 				.setIndicator(
 						createIndicatorView(this, tabHost, icon_tab_2, ""))
-						.setContent(new Intent(this, ActivityGroupPaint.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
+						.setContent(new Intent(this, ActivityGroupPaint.class)));
 		
 		tabHost.addTab(tabHost
 				.newTabSpec("tab3")
 				.setIndicator(
 						createIndicatorView(this, tabHost, icon_tab_3, ""))
-						.setContent(new Intent(this, ActivityGroupPaint.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
-		/*
+						.setContent(new Intent(this, ActivityGroupEdit.class)));
+		
 		tabHost.addTab(tabHost
 				.newTabSpec("tab4")
 				.setIndicator(
 						createIndicatorView(this, tabHost, icon_tab_4, ""))
 						.setContent(new Intent(this, ActivityGroupView.class)));
-		*/
-		tabHost.addTab(tabHost.newTabSpec("tab4")
-		        .setIndicator(createIndicatorView(this, tabHost, icon_tab_4, ""))
-		        .setContent(new Intent(this, ActivityGroupView.class)
-		        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
-		
 		
 		tabHost.addTab(tabHost
 				.newTabSpec("tab5")
 				.setIndicator(
 						createIndicatorView(this, tabHost, icon_tab_5, ""))
-						.setContent(new Intent(this, ActivityGroupView1.class)
-						.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
+						.setContent(new Intent(this, ActivityGroupView1.class)));
 		
 		tabHost.addTab(tabHost
 				.newTabSpec("tab6")

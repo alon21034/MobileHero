@@ -1,17 +1,25 @@
 package tw.edu.ntu.mobilehero;
 
-import greendroid.widget.AsyncImageView;
+import greendroid.sql.FileManager;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
 
 import tw.edu.ntu.mobilehero.EasingType.Type;
 import tw.edu.ntu.mobilehero.MultiTouchController.OnFlickListener;
 import tw.edu.ntu.mobilehero.Panel.OnPanelListener;
+import tw.edu.ntu.mobilehero.asynctask.UploadComicAsyncTask;
 import tw.edu.ntu.mobilehero.view.DrawView;
-import tw.edu.ntu.mobilehero.view.ImageScrap;
 import tw.edu.ntu.mobilehero.view.DrawView.State;
 import tw.edu.ntu.mobilehero.view.Scrap;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -20,10 +28,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,14 +49,13 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-@TargetApi(11)
-public class PaintingActivity extends Fragment implements OnPanelListener , OnTouchListener, OnFlickListener<Scrap>{
+@TargetApi(12)
+public class PaintingActivity extends Fragment implements OnPanelListener , OnTouchListener, OnFlickListener<Scrap> {
 
 	private Panel panel1;
 	private Panel panel2;
 	private Panel panel3;
 	private Panel panel4;
-	private Panel panel5;
 	private ImageView tool;
 	private ImageView pic1;
 	private ImageView pic2;
@@ -57,14 +66,19 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
 	private ImageView save;
 	private GridView gridview;
 	private GridView penbox;
+	private ImageView cameraButton;
     private Bitmap myBitmap;  
     private byte[] mContent;
     private int resource;
     
-    private Context context;
+    private boolean isSaved = false;
+    private String filePath = null;
+    private String fileName = null;
+    private String identifier;
+    private int order;
     
     private DrawView canvasView;
-//    private RelativeLayout canvasLayout;
+    private RelativeLayout canvasLayout;
     // references to our images
     private Integer[] mThumbIds = {
             R.drawable.dialog1,R.drawable.dialog2,
@@ -84,8 +98,8 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
             R.drawable.radius3,R.drawable.radius4
     };
 
-    public PaintingActivity() {
-
+    PaintingActivity() {
+    	super();
     }
     
     Bitmap bm1;
@@ -105,9 +119,18 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
 	        bm3 = BitmapFactory.decodeByteArray(b3, 0, b3.length);
 	    
 	}
+    PaintingActivity(Bundle bundle) {
+    	super();
+        filePath = bundle.getString("filePath", null);
+        Log.d("filePath", filePath);
+//        String identifier = bundle.getString("identifier", null);
+//        String sequence = bundle.getString("sequence", null);
+// 	    Log.d("identifier", identifier);
+//  	    Log.d("sequence", sequence);
+    }
     
-	
-    @Override
+    @SuppressLint("NewApi")
+	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //super.onCreate(savedInstanceState);
         //setContentView(R.layout.paint);
@@ -167,19 +190,32 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
         upload = (ImageView) v.findViewById(R.id.paint_upload);
         upload.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View vv) {
-//				new UploadComicAsyncTask().execute("¿…¶W", UUID.randomUUID().toString(), "1");
+			public void onClick(View v) {
+				fileName = saveFile();
+				identifier = UUID.randomUUID().toString();
+				FileManager fileManager = new FileManager(getActivity());
+				fileManager.open();
+				fileManager.addFile(fileName, identifier, 1);
+				fileManager.close();
+				
+				new UploadComicAsyncTask().execute(fileName, identifier, "1");
 			}
 		});
         save = (ImageView) v.findViewById(R.id.paint_save);
         save.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View vv) {
-				
+				fileName = saveFile();
+				identifier = UUID.randomUUID().toString();
+				FileManager fileManager = new FileManager(getActivity());
+				fileManager.open();
+				fileManager.addFile(fileName, identifier, 1);
+				fileManager.close();
+				isSaved = true;
 			}
 		});
         
-//        canvasLayout = (RelativeLayout) v.findViewById(R.id.canvasLayout);
+        canvasLayout = (RelativeLayout) v.findViewById(R.id.canvasLayout);
         
         gridview = (GridView) v.findViewById(R.id.gridview);
         gridview.setAdapter(new ImageAdapter(getActivity()));
@@ -194,7 +230,6 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
         
         penbox = (GridView) v.findViewById(R.id.paint_pen);
         penbox.setAdapter(new PenAdapter(getActivity()));
-
         penbox.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
             	canvasView.setState(State.Drawing);
@@ -248,7 +283,7 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
     			}
             }
         });
-
+        
         canvasView = (DrawView) v.findViewById(R.id.canvasView);
         canvasView.setOnFlickListener(this);
         canvasView.getPaint().setAntiAlias(true);
@@ -258,9 +293,11 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
         canvasView.getPaint().setStrokeJoin(Paint.Join.ROUND);
         canvasView.getPaint().setStrokeCap(Paint.Cap.ROUND);
         canvasView.getPaint().setStrokeWidth(12);
-        
+        if (filePath != null) {
+        	Log.d("filePath", filePath);
+        	canvasView.loadPanel(filePath);
+        }
         return v;
-
     }
 	@Override
 	public void onPanelClosed(Panel panel) {
@@ -385,7 +422,6 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
 	    public long getItemId(int position) {
 	        return 0;
 	    }
-
 	    
 	    // create a new ImageView for each item referenced by the Adapter
 	    public View getView(int position, View convertView, ViewGroup parent) {
@@ -402,7 +438,6 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
 	        imageView.setImageResource(mThumbIds[position]);
 	        return imageView;
 	    }
-
 	}
 	
 	public class PenAdapter extends BaseAdapter {
@@ -423,7 +458,6 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
 	    public long getItemId(int position) {
 	        return 0;
 	    }
-
 	    
 	    // create a new ImageView for each item referenced by the Adapter
 	    public View getView(int position, View convertView, ViewGroup parent) {
@@ -443,40 +477,41 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
 
 	}
 	
-	
-	public void handleActivityResult(int requestCode, int resultCode, Intent data){
-		 super.onActivityResult(requestCode, resultCode, data);  
-	        
-	        ContentResolver contentResolver= getActivity().getContentResolver();  
+	public void handleActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);  
+	    ContentResolver contentResolver= getActivity().getContentResolver();  
 
-	        if(requestCode==0){  
-	             
-	            try { 
-	                Uri orginalUri = data.getData();
-	                mContent = readStream(contentResolver.openInputStream(Uri.parse(orginalUri.toString()))); 
-	                myBitmap  =getPicFromBytes(mContent,null); 
-	                imageView.setImageBitmap(myBitmap); 
-	            } catch (Exception e) { 
-	                e.printStackTrace(); 
-	                // TODO: handle exception 
-	            }
-
-	        }else if(requestCode==1){
-	            try {  
-	                Bundle extras = data.getExtras();  
-	                myBitmap = (Bitmap) extras.get("data");  
-	                ByteArrayOutputStream baos = new ByteArrayOutputStream();       
-	                myBitmap.compress(Bitmap.CompressFormat.JPEG , 100, baos);       
-	                mContent=baos.toByteArray();  
-	            } catch (Exception e) {  
-	                e.printStackTrace();  
-	                // TODO: handle exception  
-	            }  
-	            imageView.setImageBitmap(myBitmap);  
+	    if(requestCode==0){  
+	        try { 
+	            Uri orginalUri = data.getData();
+	            mContent = readStream(contentResolver.openInputStream(Uri.parse(orginalUri.toString()))); 
+	            myBitmap  =getPicFromBytes(mContent,null); 
+	            imageView.setImageBitmap(myBitmap); 
+	        } catch (Exception e) { 
+	            e.printStackTrace(); 
+	            // TODO: handle exception 
+	        }
+	    }else if(requestCode==1){
+	        try {  
+	            Bundle extras = data.getExtras();  
+	            myBitmap = (Bitmap) extras.get("data");  
+	            ByteArrayOutputStream baos = new ByteArrayOutputStream();       
+	            myBitmap.compress(Bitmap.CompressFormat.JPEG , 100, baos);       
+	            mContent=baos.toByteArray();  
+	        } catch (Exception e) {  
+	            e.printStackTrace();  
+	            // TODO: handle exception  
 	        }  
+	        imageView.setImageBitmap(myBitmap);  
+	    } else if (requestCode==2) {
+			Log.d("filePath", data.getExtras().getString("filePath"));
+			Log.d("identifier", data.getExtras().getString("identifier"));
+			Log.d("sequence", String.valueOf(data.getExtras().getInt("sequence")));
+			canvasView.loadPanel(data.getExtras().getString("filePath"));
+	    }
     }
 	
-   public static Bitmap getPicFromBytes(byte[] bytes, BitmapFactory.Options opts) {   
+	public static Bitmap getPicFromBytes(byte[] bytes, BitmapFactory.Options opts) {   
         if (bytes != null)   
             if (opts != null)   
                 return BitmapFactory.decodeByteArray(bytes, 0, bytes.length,opts);   
@@ -484,39 +519,72 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
                 return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);   
         return null;   
     }   
-	      
-    public static byte[] readStream(InputStream in) throws Exception{  
-        byte[] buffer  =new byte[1024];  
-        int len  =-1;  
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();  
+      
+	public static byte[] readStream(InputStream in) throws Exception {  
+		byte[] buffer  =new byte[1024];  
+		int len  =-1;  
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream();  
+		   
+		while((len=in.read(buffer))!=-1){  
+			outStream.write(buffer, 0, len);  
+		}  
+		byte[] data  =outStream.toByteArray();  
+		outStream.close();  
+		in.close();  
+		return data;  
+	 }
+	 
+	public String saveFile() {        
+        File imageStorageDir = new File(
+    			Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), 
+    			"ComicRelays");
+
+    	if (!imageStorageDir.exists()) {
+    		if (!imageStorageDir.mkdirs()){
+    			Log.d("Creating Dir \"ComicRelays\"", "failed");
+    		}
+    	}
+
+    	String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+    	File imageFile;
+    	if (!isSaved) {
+    		imageFile = new File(imageStorageDir.getPath() + 
+        			File.separator + "PANEL_"+ timeStamp + ".jpg");
+    	} else {
+    		imageFile = new File(fileName);
+    	}
+    	
+        try{
+        	imageFile.createNewFile();
+        	
+        	Bitmap bitmap = Bitmap.createBitmap(
+        			canvasView.getWidth(), canvasView.getHeight(), Bitmap.Config.ARGB_8888);
+        	Canvas canvas = new Canvas(bitmap);
+        	canvasView.draw(canvas); 
+        	FileOutputStream fos = new FileOutputStream(imageFile.getAbsolutePath());
+        	if(bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)) {
+        		fos.flush();
+        		fos.close();
+            }
+        } catch (FileNotFoundException e) {
+                e.printStackTrace();
+        } catch (IOException e) {
+                e.printStackTrace(); 
+        }
         
-        while((len=in.read(buffer))!=-1){  
-            outStream.write(buffer, 0, len);  
-        }  
-        byte[] data  =outStream.toByteArray();  
-        outStream.close();  
-        in.close();  
-        return data;  
+        getActivity().sendBroadcast(new Intent(
+        		Intent.ACTION_MEDIA_MOUNTED,  
+        		Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+        
+        return imageFile.getName();
     }
-    
-    @Override
-    public void onFlick(Scrap obj) {
-        // TODO Auto-generated method stub
-        
-    }
-    @Override
-    public void onFingerUp(Scrap obj, MotionEvent event) {
-        // TODO Auto-generated method stub
-        
-    }
-    @Override
-    public void onDrag(Scrap obj, MotionEvent event) {
-        // TODO Auto-generated method stub
-        
-    }
-    @Override
-    public void onFingerDown(Scrap obj, MotionEvent event) {
-        // TODO Auto-generated method stub
-        
-    }  
+	 
+	@Override
+	public void onFlick(Scrap obj) {}
+	@Override
+	public void onFingerUp(Scrap obj, MotionEvent event) {}
+	@Override
+	public void onDrag(Scrap obj, MotionEvent event) {}
+	@Override
+	public void onFingerDown(Scrap obj, MotionEvent event) {}
 }

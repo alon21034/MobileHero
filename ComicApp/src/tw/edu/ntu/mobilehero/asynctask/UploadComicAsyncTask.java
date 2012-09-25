@@ -14,8 +14,8 @@ import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import tw.edu.ntu.mobilehero.Comic;
 import tw.edu.ntu.mobilehero.Utils;
-import tw.edu.ntu.mobilehero.view.Comic;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -27,7 +27,7 @@ public class UploadComicAsyncTask extends AsyncTask<String, Throwable, Comic>{
     
     @Override
     protected Comic doInBackground(String... params) {
-        File file = new File("mnt/sdcard", params[0]);
+        File file = new File("mnt/sdcard/Pictures/ComicRelays", params[0]);
         Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());  
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
