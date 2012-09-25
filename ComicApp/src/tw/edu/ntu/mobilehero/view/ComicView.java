@@ -4,6 +4,7 @@ import greendroid.widget.AsyncImageView;
 
 import java.util.ArrayList;
 
+import tw.edu.ntu.mobilehero.Comic;
 import tw.edu.ntu.mobilehero.R;
 import android.content.Context;
 import android.graphics.Color;
@@ -30,7 +31,7 @@ public class ComicView extends LinearLayout implements OnClickListener{
         image.add( (AsyncImageView) findViewById(R.id.comic_3));
         image.add( (AsyncImageView) findViewById(R.id.comic_4));
         
-        image.get(3).setBackgroundColor(Color.BLACK);
+        //image.get(3).setBackgroundColor(Color.BLACK);
         this.setOnClickListener(listener);
     }
     

@@ -7,6 +7,10 @@
     <HorizontalScrollView 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginRight="50dip"
+        android:layout_marginTop="50dip"
+        android:layout_marginBottom="50dip"
+        android:layout_marginLeft="150dip"
         >
         <LinearLayout 
             android:layout_width="wrap_content"

@@ -3,7 +3,6 @@ package tw.edu.ntu.mobilehero;
 import java.util.ArrayList;
 
 import tw.edu.ntu.mobilehero.asynctask.DownloadComicAsyncTask;
-import tw.edu.ntu.mobilehero.view.Comic;
 import tw.edu.ntu.mobilehero.view.ComicView;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -40,7 +39,8 @@ public class BrowserFragment extends Fragment {
                 boolean flag = false;
                 for(Comic c : result){
                     ComicView child = new ComicView(getActivity().getApplicationContext(), listener);
-                    child.setLayoutParams(new GridView.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.MATCH_PARENT));
+                    child.setLayoutParams(new GridView.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+                    child.setPadding(10, 10, 10, 10);
                     child.addComic(c);
                     if(!flag) {
                         mTopScrollView.addView(child);

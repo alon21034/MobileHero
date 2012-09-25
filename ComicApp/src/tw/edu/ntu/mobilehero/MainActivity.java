@@ -99,25 +99,32 @@ public class MainActivity extends ActivityGroup {
 				.newTabSpec("tab2")
 				.setIndicator(
 						createIndicatorView(this, tabHost, icon_tab_2, ""))
-						.setContent(new Intent(this, ActivityGroupPaint.class)));
+						.setContent(new Intent(this, ActivityGroupPaint.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
 		
 		tabHost.addTab(tabHost
 				.newTabSpec("tab3")
 				.setIndicator(
 						createIndicatorView(this, tabHost, icon_tab_3, ""))
-						.setContent(new Intent(this, ActivityGroupPaint.class)));
-		
+						.setContent(new Intent(this, ActivityGroupPaint.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
+		/*
 		tabHost.addTab(tabHost
 				.newTabSpec("tab4")
 				.setIndicator(
 						createIndicatorView(this, tabHost, icon_tab_4, ""))
 						.setContent(new Intent(this, ActivityGroupView.class)));
+		*/
+		tabHost.addTab(tabHost.newTabSpec("tab4")
+		        .setIndicator(createIndicatorView(this, tabHost, icon_tab_4, ""))
+		        .setContent(new Intent(this, ActivityGroupView.class)
+		        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
+		
 		
 		tabHost.addTab(tabHost
 				.newTabSpec("tab5")
 				.setIndicator(
 						createIndicatorView(this, tabHost, icon_tab_5, ""))
-						.setContent(new Intent(this, ActivityGroupView1.class)));
+						.setContent(new Intent(this, ActivityGroupView1.class)
+						.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
 		
 		tabHost.addTab(tabHost
 				.newTabSpec("tab6")
