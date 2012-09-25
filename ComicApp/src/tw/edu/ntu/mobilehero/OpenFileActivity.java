@@ -16,56 +16,81 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 public class OpenFileActivity extends Fragment {
 	private List<File> mPanelFiles = new ArrayList<File>();
 	private List<Bitmap> mPanelBitmaps = new ArrayList<Bitmap>();
 		
+	private LinearLayout layout;
+	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	Log.d("OpenFileActivity", "onCreateView");
     	View v = inflater.inflate(R.layout.open_existing_panel, container, false);
         
         getPanels();
-        GridView gridView = (GridView) v.findViewById(R.id.gridview);
-        gridView.setAdapter(new PanelAdapter());
-        gridView.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
-				String fileName = mPanelFiles.get(position).getName();
-				
-				FileManager fileManager = new FileManager(getActivity());
-				fileManager.open();
-				FileInfo fileInfo = fileManager.getFileInfo(fileName);
-//				Log.d("identifier", fileInfo.getIdentifier());
-//				Log.d("sequence", String.valueOf(fileInfo.getSequence()));
-				fileManager.close();
-				
-				if(getActivity() instanceof ActivityGroupEdit) {
-					FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-					Bundle bundle = new Bundle();
-					bundle.putString("filePath", mPanelFiles.get(position).getAbsolutePath());
-//					bundle.putString("identifier", fileInfo.getIdentifier());
-//					bundle.putInt("sequence", fileInfo.getSequence());
-					ft.replace(R.id.simple_fragment, new PaintingActivity(bundle));
-					ft.addToBackStack(null); 
-					ft.commitAllowingStateLoss(); 
-				}
-				
-//				ActivityGroupEdit.changeFragment(new PaintingActivity());
-			}
-        	
-        });
+        
+        layout = (LinearLayout) v.findViewById(R.id.browser_edit);
+        for(int i = 0 ; i < mPanelFiles.size() ; i++) {
+            ImageView image = new ImageView(getActivity().getApplicationContext());
+            image.setImageBitmap(mPanelBitmaps.get(i));
+            final int k = i;
+            image.setOnClickListener(new OnClickListener() {
+                
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                  String fileName = mPanelFiles.get(k).getName();
+                  
+                  FileManager fileManager = new FileManager(getActivity());
+                  fileManager.open();
+                  FileInfo fileInfo = fileManager.getFileInfo(fileName);
+                  fileManager.close();
+                  
+                  if(getActivity() instanceof ActivityGroupEdit) {
+                      FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                      Bundle bundle = new Bundle();
+                      bundle.putString("filePath", mPanelFiles.get(k).getAbsolutePath());
+                      ft.replace(R.id.simple_fragment, new PaintingActivity(bundle));
+                      ft.addToBackStack(null); 
+                      ft.commitAllowingStateLoss(); 
+                  }
+                }
+            });
+            layout.addView(image);
+        }
+        
+//        GridView gridView = (GridView) v.findViewById(R.id.gridview);
+//        gridView.setAdapter(new PanelAdapter());
+//        gridView.setOnItemClickListener(new OnItemClickListener() {
+//			@Override
+//			public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
+//				String fileName = mPanelFiles.get(position).getName();
+//				
+//				FileManager fileManager = new FileManager(getActivity());
+//				fileManager.open();
+//				FileInfo fileInfo = fileManager.getFileInfo(fileName);
+//				fileManager.close();
+//				
+//				if(getActivity() instanceof ActivityGroupEdit) {
+//					FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+//					Bundle bundle = new Bundle();
+//					bundle.putString("filePath", mPanelFiles.get(position).getAbsolutePath());
+//					ft.replace(R.id.simple_fragment, new PaintingActivity(bundle));
+//					ft.addToBackStack(null); 
+//					ft.commitAllowingStateLoss(); 
+//				}
+//			}
+//        	
+//        });
         return v;
     }
-
-    
 
     private void getPanels() {        
     	File panelStorageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);

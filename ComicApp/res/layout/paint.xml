@@ -119,7 +119,7 @@
 	    panel:position="left"
 	    android:layout_marginLeft="150dip"
 	    panel:animationDuration="666"
-	    panel:openedHandle="@drawable/left_switcher_expanded_background"
+	    panel:openedHandle="@drawable/blank"
 	    panel:closedHandle="@drawable/blank"
 	    panel:linearFlying="true"
 	>
@@ -149,7 +149,7 @@
 	    panel:position="left"
 	    android:layout_marginLeft="150dip"
 	    panel:animationDuration="333"
-	    panel:openedHandle="@drawable/left_switcher_expanded_background"
+	    panel:openedHandle="@drawable/blank"
 	    panel:closedHandle="@drawable/blank"
 	    panel:linearFlying="true"
 	>
@@ -163,15 +163,6 @@
 			android:id="@+id/panelContent" 
 		    android:layout_width="wrap_content" 
 		    android:layout_height="fill_parent" 
-		    android:gravity="center"
-		    android:padding="4dip"
-		    android:text="Default Interpolator\n\nRight content #3\n\nweight == 75%p so it expands to 3/4 width"
-		    android:textSize="16dip"
-		    android:textColor="#eee"
-		    android:textStyle="bold"
-		    android:background="#329999"
-		    android:layout_marginTop="100dip"
-		    android:layout_marginBottom="100dip"
 		/>
 	</tw.edu.ntu.mobilehero.Panel>
 <tw.edu.ntu.mobilehero.Panel
@@ -231,7 +222,7 @@
 	    panel:position="left"
 	    android:layout_marginLeft="150dip"
 	    panel:animationDuration="333"
-	    panel:openedHandle="@drawable/left_switcher_expanded_background"
+	    panel:openedHandle="@drawable/blank"
 	    panel:closedHandle="@drawable/blank"
 	    panel:linearFlying="true"
 	>
@@ -250,13 +241,5 @@
 		    android:text=""
 		/>
 	</tw.edu.ntu.mobilehero.Panel>
-		
-		<ImageView
-		    android:id="@+id/paint"
-		    android:layout_centerInParent="true"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:src="@drawable/dialog2" />
-		
 
 </RelativeLayout>

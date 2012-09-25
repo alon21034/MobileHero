@@ -22,7 +22,7 @@ public class ActivityGroupView1 extends FragmentActivity implements OnClickListe
         setContentView(R.layout.fragment_paint);  
         fm = getSupportFragmentManager();  
         // 只當容器，主要內容已Fragment呈現  
-        initFragment(new BrowserFragment(this)); 
+        initFragment(new PrivateFragment(this)); 
         back = 0;
     }  
     

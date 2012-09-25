@@ -24,6 +24,7 @@ import tw.edu.ntu.mobilehero.view.Scrap;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -37,6 +38,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.text.AlteredCharSequence;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -47,6 +49,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -64,21 +67,16 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
 	private ImageView pic2;
 	private ImageView pic3;
 	private AsyncImageView preview;
-	private ImageView imageView;
 	private ImageView upload;
 	private ImageView save;
 	private GridView gridview;
 	private GridView penbox;
-	private ImageView cameraButton;
-    private Bitmap myBitmap;  
     private byte[] mContent;
-    private int resource;
     
     private boolean isSaved = false;
     private String filePath = null;
     private String fileName = null;
     private String identifier;
-    private int order;
     private Comic comic;
     
     private DrawView canvasView;
@@ -163,10 +161,6 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
         panel5.setOnPanelListener(this);
         panel5.setInterpolator(new BackInterpolator(Type.OUT, 2));
  
-        imageView = (ImageView) v.findViewById(R.id.paint);
-
-        
-        
         tool = new ImageView(getActivity());
         tool.setImageResource(R.drawable.toolbar);
         
@@ -188,7 +182,7 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
         preview = (AsyncImageView) v.findViewById(R.id.paint_preview);
         
         LayoutInflater prospect = inflater;
-        getActivity().addContentView( prospect.inflate(R.layout.tool, null), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+        v.addView( prospect.inflate(R.layout.tool, null), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
         ViewGroup.LayoutParams.MATCH_PARENT));
         
         upload = (ImageView) v.findViewById(R.id.paint_upload);
@@ -297,45 +291,14 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
         canvasView.getPaint().setStrokeWidth(12);
         if (filePath != null) {
         	Log.d("filePath", filePath);
-        	canvasView.loadPanel(filePath);
+        	canvasView.addScrap(filePath,true);
         }
         return v;
     }
 	@Override
 	public void onPanelClosed(Panel panel) {
 		// TODO Auto-generated method stub
-		String panelName = getResources().getResourceEntryName(panel.getId());
-		Log.d("TestPanels", "Panel [" + panelName + "] closed");
-		if(panelName.equals("rightPanel5")){
-			
-            final CharSequence[] items = { "From Gallery", "From camera" };  
-            
-            AlertDialog dlg = new AlertDialog.Builder(getActivity()).setTitle("Select Resource").setItems(items,   
-                    new DialogInterface.OnClickListener() {  
-                          
-                        @Override  
-                        public void onClick(DialogInterface dialog, int which) {  
-                            // TODO Auto-generated method stub  
-                            if(which==1){  
-                                Intent getImageByCamera  = new Intent("android.media.action.IMAGE_CAPTURE");  
-                                getActivity().startActivityForResult(getImageByCamera, 1);  
-                            }else{  
-                                Intent getImage = new Intent(Intent.ACTION_GET_CONTENT);  
-                                getImage.addCategory(Intent.CATEGORY_OPENABLE);  
-                                getImage.setType("image/jpeg");  
-                                getActivity().startActivityForResult(getImage, 0);  
-                            }  
-                              
-                        }  
-                    }).create();  
-            dlg.show();  
-			
-			
-		}else if (panelName.equals("rightPanel3")){
-			////////////
-			// eraser.//
-			////////////
-		}		
+	    onPanelOpened(panel);
 		
 	}
 	@Override
@@ -369,10 +332,29 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
             dlg.show();  
 			
 			
-		}else if (panelName.equals("rightPanel3")){
+		}else if (panelName.equals("rightPanel2")){
 			///////////
 			//eraser.//
 			///////////
+		}else if (panelName.equals("rightPanel3")) {
+		    Builder builder = new Builder(getActivity());
+		    builder.setTitle("enter text");
+		    LayoutInflater factory = LayoutInflater.from(getActivity().getApplicationContext());
+            final View textEntryView = factory.inflate(R.layout.text_dialog, null);
+            builder.setView(textEntryView);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    EditText editText = (EditText) textEntryView.findViewById(R.id.dialog_edittext);
+                    canvasView.addText(editText.getText().toString());
+                    /* User clicked OK so do some stuff */
+                }
+            })
+            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+
+                    /* User clicked cancel so do some stuff */
+                }
+            }).create().show();
 		}
 		
 		
@@ -487,8 +469,6 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
 	        try { 
 	            Uri orginalUri = data.getData();
 	            mContent = readStream(contentResolver.openInputStream(Uri.parse(orginalUri.toString()))); 
-	            myBitmap  =getPicFromBytes(mContent,null); 
-	            imageView.setImageBitmap(myBitmap); 
 	        } catch (Exception e) { 
 	            e.printStackTrace(); 
 	            // TODO: handle exception 
@@ -496,20 +476,17 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
 	    }else if(requestCode==1){
 	        try {  
 	            Bundle extras = data.getExtras();  
-	            myBitmap = (Bitmap) extras.get("data");  
 	            ByteArrayOutputStream baos = new ByteArrayOutputStream();       
-	            myBitmap.compress(Bitmap.CompressFormat.JPEG , 100, baos);       
 	            mContent=baos.toByteArray();  
 	        } catch (Exception e) {  
 	            e.printStackTrace();  
 	            // TODO: handle exception  
 	        }  
-	        imageView.setImageBitmap(myBitmap);  
 	    } else if (requestCode==2) {
 			Log.d("filePath", data.getExtras().getString("filePath"));
 			Log.d("identifier", data.getExtras().getString("identifier"));
 			Log.d("sequence", String.valueOf(data.getExtras().getInt("sequence")));
-			canvasView.loadPanel(data.getExtras().getString("filePath"));
+			canvasView.addScrap(data.getExtras().getString("filePath"));
 	    }
     }
 	
@@ -559,15 +536,21 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
         try{
         	imageFile.createNewFile();
         	
-        	Bitmap bitmap = Bitmap.createBitmap(
-        			canvasView.getWidth(), canvasView.getHeight(), Bitmap.Config.ARGB_8888);
-        	Canvas canvas = new Canvas(bitmap);
-        	canvasView.draw(canvas); 
+//        	Bitmap bitmap = Bitmap.createBitmap(
+//        			canvasView.getWidth(), canvasView.getHeight(), Bitmap.Config.ARGB_8888);
+//        	Canvas canvas = new Canvas(bitmap);
+//        	canvasView.draw(canvas); 
+        	
+        	canvasView.buildDrawingCache();
+        	Bitmap bitmap = canvasView.getDrawingCache();
+        	
         	FileOutputStream fos = new FileOutputStream(imageFile.getAbsolutePath());
         	if(bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)) {
         		fos.flush();
         		fos.close();
             }
+        	bitmap.recycle();
+        	
         } catch (FileNotFoundException e) {
                 e.printStackTrace();
         } catch (IOException e) {
@@ -577,6 +560,8 @@ public class PaintingActivity extends Fragment implements OnPanelListener , OnTo
         getActivity().sendBroadcast(new Intent(
         		Intent.ACTION_MEDIA_MOUNTED,  
         		Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+        
+        
         
         return imageFile.getName();
     }

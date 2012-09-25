@@ -1,5 +1,6 @@
 package tw.edu.ntu.mobilehero.view;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import tw.edu.ntu.mobilehero.MultiTouchController;
@@ -9,21 +10,22 @@ import tw.edu.ntu.mobilehero.MultiTouchController.PositionAndScale;
 import tw.edu.ntu.mobilehero.R;
 import tw.edu.ntu.mobilehero.asynctask.MakeTextAsyncTask;
 import tw.edu.ntu.mobilehero.view.PictureFiles.BitmapFile;
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Path;
-import android.graphics.Rect;
+import android.media.ThumbnailUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.widget.Toast;
 
 public class DrawView extends View implements MultiTouchObjectCanvas<Scrap>{
     public static enum State{
@@ -44,6 +46,7 @@ public class DrawView extends View implements MultiTouchObjectCanvas<Scrap>{
     private Paint   mBitmapPaint;
     
     private State state = State.Picture;
+    private ImageScrap background;
     
     public DrawView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -81,8 +84,6 @@ public class DrawView extends View implements MultiTouchObjectCanvas<Scrap>{
         mBitmapPaint = new Paint(Paint.DITHER_FLAG);
         paint = new Paint();
         paint.setStyle(Style.STROKE);
-        addScrap();
-        addText("aaa");
         invalidate();
     }
 
@@ -110,10 +111,8 @@ public class DrawView extends View implements MultiTouchObjectCanvas<Scrap>{
             bmpFile = PictureFiles.loadResourcePicture(mContext, id);
             ImageScrap imageScrap = new ImageScrap(bmpFile.bmp, bmpFile.file);
             mScraps.add(imageScrap);
-            
             Log.d("!!","add scrap");
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -123,9 +122,33 @@ public class DrawView extends View implements MultiTouchObjectCanvas<Scrap>{
         setChanged(true);
     }
     
+    public void addScrap(String filepath) {
+        Log.d("!!","add scrap from path: " + filepath);
+        try {
+            ImageScrap imageScrap = new ImageScrap(PictureFiles.loadPrivatePicture(new File(filepath)), new File(filepath));
+            mScraps.add(imageScrap);
+            Log.d("!!","add scrap");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void addScrap(String filepath, boolean b) {
+        try {
+            ImageScrap imageScrap = new ImageScrap(PictureFiles.loadPrivatePicture(new File(filepath)), new File(filepath));
+//            mScraps.add(imageScrap);
+            setBackground(imageScrap);
+            invalidate();
+            
+            Log.d("!!","add scrap");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     public void addText(String str) {
         MakeTextAsyncTask mAsyncTask = new MakeTextAsyncTask(this);
-        mAsyncTask.execute(new Intent());
+        mAsyncTask.execute(str);
     }
     
     public synchronized void setChanged(boolean isChanged) {
@@ -191,11 +214,11 @@ public class DrawView extends View implements MultiTouchObjectCanvas<Scrap>{
     
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
-        canvas.drawPath(mPath, paint);
         for (Scrap scrap : mScraps) {
             scrap.draw(canvas);
         }
+        canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
+        canvas.drawPath(mPath, paint);
     }
     
     @Override
@@ -206,7 +229,7 @@ public class DrawView extends View implements MultiTouchObjectCanvas<Scrap>{
     public Scrap getDraggableObjectAtPoint(float x, float y) {
         for (int i = mScraps.size() - 1; i >= 0; i--) {
             Scrap scrap = mScraps.get(i);
-            if (scrap.containsPoint(x, y) && scrap.isSelectable())
+            if (scrap.containsPoint(x+80, y+80) && scrap.isSelectable())
                 return scrap;
         }
         return null;
@@ -253,10 +276,41 @@ public class DrawView extends View implements MultiTouchObjectCanvas<Scrap>{
         return paint;
     }
     
-    public void loadPanel(String filePath) {
-    	Bitmap panelBitmap = BitmapFactory.decodeFile(filePath);
-    	mBitmap = panelBitmap;
-    	mCanvas.drawBitmap(
-    			panelBitmap, null, new Rect(0, 0, panelBitmap.getWidth(), panelBitmap.getHeight()), null);
+    public synchronized void setBackground(ImageScrap img) {
+        // User changing background
+        // Resize the bundled background to fit the screen
+        Display display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
+        int screenWidth = display.getWidth();
+        int screenHeight = display.getHeight();
+
+        int feedback = 0;
+        try {
+            Bitmap origBitmap = img.getDrawable().getBitmap();
+            Bitmap resizedBitmap = ThumbnailUtils.extractThumbnail(origBitmap, screenWidth, screenHeight, ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+            PictureFiles.BitmapFile bmpf = PictureFiles.loadMemoryPicture(resizedBitmap);
+            img.delete();
+            img = new ImageScrap(bmpf.bmp, bmpf.file);
+            doSetBackground(img);
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+        } catch (PictureFiles.Exception e) {
+            e.printStackTrace();
+        }
+
+        doSetBackground(img);
+        setChanged(true);
+    }
+    
+    public synchronized void doSetBackground(ImageScrap img) {
+        if (img == background && img != null)
+            return;
+        if (background != null)
+            background.delete();
+        background = img;
+        if (background != null) {
+            setBackgroundDrawable(background.getDrawable());
+        } else if (mScraps.size() == 0) {
+        } else {
+        }
     }
 }

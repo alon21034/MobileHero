@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 
-public class MakeTextAsyncTask extends AsyncDialogTask<Intent, Scrap, Throwable> {
+public class MakeTextAsyncTask extends AsyncDialogTask<String, Scrap, Throwable> {
 
     private DrawView mStageView;
     private TextScrap mText;
@@ -28,7 +28,7 @@ public class MakeTextAsyncTask extends AsyncDialogTask<Intent, Scrap, Throwable>
     }
 
     @Override
-    protected Throwable doInBackground(Intent... params) {
+    protected Throwable doInBackground(String... params) {
         Log.d("!!","make text asynctask");
 //        if (params == null) {
 //            return null;
@@ -41,7 +41,7 @@ public class MakeTextAsyncTask extends AsyncDialogTask<Intent, Scrap, Throwable>
 //        int text_color = param.getIntExtra(TextActivity.TEXT_EXTRA_COLOR, TextActivity.TEXT_DEFAULT_COLOR);
 //        int text_outline_color = param.getIntExtra(TextActivity.TEXT_EXTRA_OUTLINE_COLOR, TextActivity.TEXT_DEFAULT_OUTLINE_COLOR);
 
-        String text_string = "test";
+        String text_string = params[0];
         String text_font = "";
         int text_color = Color.BLACK;
         int text_outline_color = Color.BLACK;
